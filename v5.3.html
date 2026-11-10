@@ -546,6 +546,7 @@ label.f{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:14p
 .track li.on::before{background:var(--acc)}
 .track small{grid-column:2;display:block;font-size:14px;font-weight:400;color:var(--mute)}
 .done-h{display:flex;gap:16px;align-items:center;margin-bottom:24px}
+.row.after{margin-top:16px}
 .done-h h1{margin:0}
 .done-h .lead{margin:4px 0 0}
 .okc{width:52px;height:52px;flex:none;display:grid;place-items:center;border-radius:50%;background:var(--ok-bg);color:var(--ok)}
@@ -1512,12 +1513,17 @@ function sumBar(){
     pagesTxt(s.pages),'обложка '+coverName(s),lamName(s),
     matOf(s).t.toLowerCase()+' '+s.dens,s.print,(s.qty>=1?s.qty:0)+' экз.'];
   return '<div class="oc"><b class="oh">Состав заказа</b><p class="bsum">'+it.map(function(x){return '<span>'+esc(x)+'</span>'}).join('')+'</p></div>'}
+/* кнопка шага после расчёта: «Макет» → проверка (активна, когда файл загружен), «Проверка» → оплата (когда замечаний нет) */
+function laterNext(cls){
+  if(view==='file')return '<button class="cta two'+cls+'" data-go="check"'+(file?'':' disabled')+'><b>Следующий шаг</b><small>Проверка макета</small></button>';
+  if(view==='check'){var st=checkState();return '<button class="cta two'+cls+'" data-go="pay"'+(st==='ok'||st==='accepted'?'':' disabled')+'><b>Следующий шаг</b><small>Оплата</small></button>'}
+  return ''}
 function paintBar(){
   var b=document.getElementById('pbar'),calc=view==='calc';
   b.hidden=false;
   var ok=valid()&&!calcErr,pd=PROD.find(function(x){return x.v===prodOf(s)}),c=ok?priceOf(s):null,p='',a='';
   if(!calc){p=ok?'<span class="bp off"><b class="num">'+moneyBig(c.total)+'</b><small class="num"><span class="lg">готово '+readyTxt()+' · '+vatTxt(s)+'</span><span class="sh">'+readyTxt()+'</span></small></span>':'';
-    if(view==='check'){var cs2=checkState();a='<button class="cta two" data-go="pay"'+(cs2==='ok'||cs2==='accepted'?'':' disabled')+'><b>Следующий шаг</b><small>Оплата</small></button>'}
+    a=laterNext('');
   }
   else{
     p=ok?'<button class="bp" data-act="sostav" aria-haspopup="dialog" aria-live="polite"><b class="num">'+moneyBig(c.total)+'</b><small class="num"><span class="lg">готово '+dlabel(addBiz(pd.days))+(s.dlv==='dlv'?' · без доставки':'')+' · <u>Подробности</u></span><span class="sh">'+dlabel(addBiz(pd.days))+'</span></small></button>'
@@ -1557,7 +1563,7 @@ function viewFile(){
    +(upErr?'<p class="note err" role="alert">'+upErr+'</p>':'')
    +'<div id="prog" class="prog" hidden><div class="progress"><i id="bar"></i></div><span class="fine" id="ptxt">Проверяем размер и полосы…</span><button class="lnk" data-act="upcancel">Отменить</button></div>'
    +'<div class="samp"><p class="fine">Пример файла для прототипа</p><div class="samples"><button class="btn2" data-sample="ok">Без замечаний</button><button class="btn2" data-sample="risk">С рисками</button><button class="btn2" data-sample="err">С ошибкой</button><button class="btn2" data-sample="type">Не PDF</button><button class="btn2" data-sample="net">Сбой сети</button></div></div></div>'
-   +'</div><aside class="fa">'+summary(false)+'</aside></div>';
+   +'</div><aside class="fa">'+summary(false)+laterNext(' fnext')+'</aside></div>';
 }
 /* загрузка одна: повторный клик перезапускает её, уход с экрана «Макет» отменяет */
 var upIv=null,upT=null,upErr='';
@@ -1604,7 +1610,7 @@ function viewCheck(){
   else if(st==='err')h+='<div class="issues"><div class="issue"><span class="dot" style="background:var(--err)"></span><h4>В файле '+pagesTxt(file.pages)+', в заказе '+s.pages+'</h4><p>Для скрепки число полос должно совпадать и быть кратным 4.</p><div class="row"><button class="btn2" data-act="fitpages">Заказ на '+file.pages+' '+plural(file.pages,'полосу','полосы','полос')+' · '+moneyK(priceOf(Object.assign(clone(s),{pages:file.pages})).total)+'</button><button class="btn2" data-go="file">Загрузить другой файл</button></div></div></div>';
   h+='<p class="manual">Сомневаетесь — <button class="lnk" data-act="manual">отправьте технологу</button>, ответ на почту в течение 2 часов.</p>';
   /* кнопка шага — под блоком заказа, рядом с ценой; на телефоне она в нижней панели */
-  return h+'</div><aside class="fa">'+summary(true)+'<button class="cta two fnext" data-go="pay"'+(st==='ok'||st==='accepted'?'':' disabled')+'><b>Следующий шаг</b><small>Оплата</small></button></aside></div>';
+  return h+'</div><aside class="fa">'+summary(true)+laterNext(' fnext')+'</aside></div>';
 }
 
 /* ================= оплата и итог ================= */
