@@ -169,11 +169,11 @@ h1[tabindex]:focus{outline:0}
 .wlc .seg button:not([aria-pressed="true"]),.wlc .chip:not([aria-pressed="true"]){box-shadow:inset 0 0 0 var(--tbw) var(--tbn)}
 .tl:not([aria-pressed="true"]):not([disabled]):hover,.seg button:not([aria-pressed="true"]):not([disabled]):hover{box-shadow:inset 0 0 0 var(--tbw) var(--tbn)}
 .tl[aria-pressed="true"],.ro[aria-pressed="true"],.chip[aria-pressed="true"],.seg button[aria-pressed="true"]{box-shadow:inset 0 0 0 var(--taw) var(--ta)}
-.tl{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:2px 8px;min-width:0;min-height:44px;padding:12px 16px;text-align:left;align-content:space-between;container-type:inline-size}
-/* узкая плашка: название сверху, разница внизу слева, чипы в ряду на одной линии */
+.tl{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:2px 8px;min-width:0;min-height:44px;padding:12px 16px;text-align:left;align-content:center;container-type:inline-size}
+/* узкая плашка: подпись (размер формата) под названием, слева */
 .tls.stk .tl:not(.tlc)>b,.tls.stk .tl:not(.tlc)>small{grid-column:1/-1}
 .tls.stk .tl:not(.tlc)>small{justify-self:start;text-align:left}
-.tl.tlc{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;justify-content:flex-start;gap:0}
+.tl.tlc{display:flex;flex-direction:column;flex-wrap:nowrap;align-items:flex-start;justify-content:center;gap:0}
 .tl b{min-width:0;font-weight:400;font-size:14px;line-height:1.2}
 /* сроки: дата и подпись в одну строку. Группе не хватает места на самое длинное слово или дату (fitChips) — поля уже, дата мельче; дата и так не влезла — короткий месяц, потом две строки; подпись не влезла — в две строки */
 .tl.tlc>b{white-space:nowrap}
@@ -190,9 +190,8 @@ h1[tabindex]:focus{outline:0}
 .tl[disabled] b,.tl[disabled] small{color:var(--dis)}
 .tl.tlc[disabled]>small:first-child{color:var(--mute)}
 .grp>.seg{display:flex}
-/* переключатель параметра выглядит и выравнивается как плашка: название сверху слева, те же поля,
-   цена справа, а не помещается — под названием от левого края */
-.grp>.seg button{flex:1;display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;justify-content:flex-start;gap:0 8px;padding:10px 16px;white-space:normal;line-height:1.2;text-align:left}
+/* переключатель параметра выглядит и выравнивается как плашка: название слева, по центру высоты, те же поля */
+.grp>.seg button{flex:1;display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:flex-start;gap:0 8px;padding:10px 16px;white-space:normal;line-height:1.2;text-align:left}
 .grp>.seg.sgn button{padding-left:10px;padding-right:10px}
 
 /* строка варианта: метка, название с пояснением, разница в цене */
@@ -228,7 +227,7 @@ h1[tabindex]:focus{outline:0}
 .stepper output{min-width:130px;text-align:center;font-size:16px;font-weight:500;line-height:44px}
 .pg{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .chips{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.chip{flex:1 1 76px;display:flex;flex-direction:column;align-items:flex-start;padding:11px 14px;text-align:left}
+.chip{flex:1 1 76px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:11px 14px;text-align:left}
 .chip b{font-weight:400}
 .chip small{font-size:12px;color:var(--mute);white-space:nowrap}
 
@@ -286,7 +285,7 @@ html{scroll-padding-bottom:calc(var(--bar) + 16px)}
 /* телефон: сроки строками, дата и цена в одну линию */
 @media (max-width:860px){
   [data-g="prod"] .tls{grid-template-columns:minmax(0,1fr)!important}
-  [data-g="prod"] .tl.tlc{flex-direction:row;flex-wrap:wrap;align-items:baseline;align-content:center;gap:2px 10px}
+  [data-g="prod"] .tl.tlc{flex-direction:row;flex-wrap:wrap;align-items:baseline;align-content:center;justify-content:flex-start;gap:2px 10px}
   [data-g="prod"] .tl.tlc small:first-child{flex:0 0 88px}
   [data-g="prod"] .tl.tlc small:last-child{margin-left:auto}
 }
@@ -866,8 +865,6 @@ function cuErr(){var w=+s.cw||0,h=+s.ch||0,e={w:false,h:false,t:''};if(cuOk(w,h)
 function fmtOk(t){return t.fmt!=='cu'||cuOk(+t.cw||0,+t.ch||0)}
 function valid(){return s.qty>=1&&s.qty<=500&&fmtOk(s)}
 /* разница в цене, если поменять один параметр: её пишем у каждого варианта */
-function dlt(patch){if(!valid()||calcErr)return null;var t=Object.assign(clone(s),patch);if(!(t.qty>=1&&t.qty<=500&&fmtOk(t)))return null;return priceOf(t).total-priceOf(s).total}
-function dtxt(d){if(d===null)return '';if(Math.abs(d)<.5)return 'без изменений';return (d>0?'+':'−')+money(Math.abs(d))}
 function matPatch(v){var m=MATS.find(function(x){return x.v===v});return {mat:v,dens:m.d.indexOf(s.dens)>=0?s.dens:m.d[Math.min(2,m.d.length-1)]}}
 
 /* ================= текст и числа ================= */
@@ -1249,7 +1246,7 @@ function miniCover(){
 
 /* ================= лента параметров ================= */
 /* строка варианта: метка выбора, название, пояснение, разница в цене с текущим заказом */
-function ro(attr,val,sel,t,sub,d,o){o=o||{};var rd=o.rd!==undefined?o.rd:(sel||o.dis?'':dtxt(d));
+function ro(attr,val,sel,t,sub,o){o=o||{};var rd=o.rd||'';
   return '<button class="ro" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+(o.pre||'')+'<span class="rt"><b>'+t+'</b>'+(sub?'<small>'+sub+'</small>':'')+'</span><span class="rd num">'+rd+'</span></button>'}
 /* плитка варианта: название и подпись (размер формата), без разницы в цене; пустой подписи нет */
 function tl(attr,val,sel,t,sm,o){o=o||{};return '<button class="tl'+(o.pre?' tlc':'')+'" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+(o.pre||'')+'<b>'+t+'</b>'+(sm?'<small class="num">'+sm+'</small>':'')+'</button>'}
@@ -1281,7 +1278,7 @@ var G={
     var la=lamAllowed(s),cl=lamOf(s),o='<h4 class="sh" id="h-lam">Плёнка</h4><div class="tls t4 tw" role="group" aria-label="Плёнка на обложку">';
     lamList().forEach(function(x){var dis=x.v!=='no'&&!la,sel=cl===x.v;o+=tl('lam',x.v,sel,x.v==='no'?'Нет':x.t,'',{dis:dis})});
     o+='</div>';
-    if(!la){var fix=dlt({cover:'sep',covmat:'cd250',lamOn:true});o+='<div class="why" id="lamwhy"><p>'+'Плёнка ложится на обложку от 170 г/⁠м²'+(s.mat==='ds'&&s.cover!=='sep'?' и не ложится на дизайнерскую':'')+', сейчас '+covDens(s)+' г/⁠м².</p><button class="lnk" data-act="covon">Обложка из картона 250'+(fix!==null?' · '+dtxt(fix):'')+'</button></div>'}
+    if(!la){o+='<div class="why" id="lamwhy"><p>'+'Плёнка ложится на обложку от 170 г/⁠м²'+(s.mat==='ds'&&s.cover!=='sep'?' и не ложится на дизайнерскую':'')+', сейчас '+covDens(s)+' г/⁠м².</p><button class="lnk" data-act="covon">Обложка из картона 250</button></div>'}
     return o},
   mat:function(){
     var b='<h4 class="sh" id="h-mat">Бумага</h4><div class="tls t5" role="group" aria-label="Бумага блока">';
@@ -1610,8 +1607,8 @@ function orgHTML(){return innOk()?'<b>ООО «Северная студия»</
 function viewPay(){
   var c=priceOf(s),ip=priceOf(Object.assign(clone(s),{ent:'ip'})),oo=priceOf(Object.assign(clone(s),{ent:'ooo'}));
   var h='<div class="flow"><div class="fm"><button class="back" data-go="check">← К проверке</button><h1>Оплата</h1><p class="lead">Печать — сразу после оплаты. Закрывающие придут на почту.</p><div class="form">'
-   +'<section class="fset"><h2>Счёт выставит</h2><div class="rows" role="group" aria-label="Счёт выставит">'+ro('ent','ip',s.ent==='ip','ИП · без НДС','ИП на упрощённой системе',null,{rd:moneyK(ip.total)})+ro('ent','ooo',s.ent==='ooo','ООО · с НДС 22%','в том числе НДС '+moneyK(oo.vat),null,{rd:moneyK(oo.total)})+'</div></section>'
-   +'<section class="fset"><h2>Как оплатить</h2><div class="rows" role="group" aria-label="Способ оплаты">'+ro('pay','inv',pay==='inv','По счёту для юрлица','Счёт придёт на почту, оплата с расчётного счёта',null,{rd:''})+ro('pay','card',pay==='card','Картой онлайн','Защищённая страница банка',null,{rd:''})+'</div>';
+   +'<section class="fset"><h2>Счёт выставит</h2><div class="rows" role="group" aria-label="Счёт выставит">'+ro('ent','ip',s.ent==='ip','ИП · без НДС','ИП на упрощённой системе',{rd:moneyK(ip.total)})+ro('ent','ooo',s.ent==='ooo','ООО · с НДС 22%','в том числе НДС '+moneyK(oo.vat),{rd:moneyK(oo.total)})+'</div></section>'
+   +'<section class="fset"><h2>Как оплатить</h2><div class="rows" role="group" aria-label="Способ оплаты">'+ro('pay','inv',pay==='inv','По счёту для юрлица','Счёт придёт на почту, оплата с расчётного счёта',{rd:''})+ro('pay','card',pay==='card','Картой онлайн','Защищённая страница банка',{rd:''})+'</div>';
   if(pay==='inv')h+='<label class="f">ИНН плательщика<input id="inn" class="in wide num" value="'+esc(payer.inn)+'" inputmode="numeric" aria-invalid="'+(payTried&&!innOk())+'"></label><div class="org" id="org">'+orgHTML()+'</div><label class="f">Почта для счёта и закрывающих<input id="mail" class="in wide" type="email" value="'+esc(payer.mail)+'" aria-invalid="'+(payTried&&!mailOk())+'"></label>'+(payTried&&!mailOk()?'<p class="ferr">Укажите почту в формате name@company.ru.</p>':'');
   else h+='<p class="fine">После нажатия откроется страница банка. В прототипе оплата не проводится.</p>';
   h+='</section><section class="fset"><label class="chk"><input type="checkbox" id="c-offer"'+(payOk.offer?' checked':'')+'><span><b>Согласен с условиями оферты</b></span></label>'
