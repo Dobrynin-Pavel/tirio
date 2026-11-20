@@ -57,8 +57,8 @@ button.st:hover{background:var(--fill)}
 .ava{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--on-acc);display:grid;place-items:center;font-size:12px;font-weight:600;flex:none}
 .mstep{display:none}
 
-/* раскладка: строка сверху на всю ширину и 1–3 колонки, доли ширины в --gt. Последняя колонка закреплена */
-.lw{max-width:1368px;margin:0 auto;padding:24px;display:grid;grid-template-columns:var(--gt);gap:24px;align-items:start}
+/* раскладка: строка шагов сверху на всю ширину, под ней две колонки 63/37 — параметры и закреплённая колонка со сценой */
+.lw{max-width:1368px;margin:0 auto;padding:24px;display:grid;grid-template-columns:minmax(0,63fr) minmax(0,37fr);gap:24px;align-items:start}
 .lz{display:flex;flex-direction:column;gap:20px;min-width:0}
 .lzt{grid-column:1/-1}
 .lz:empty{display:none}
@@ -78,15 +78,21 @@ html:not(.stagebig) .lzs.no3d .stagehold{display:none}
 .lz:not(.lzs)>.blk-stage .stagehold{height:440px}
 .card{display:flex;flex-direction:column;gap:16px;padding:16px 20px 20px;border-radius:var(--rb);background:var(--card)}
 .card>h3{display:flex;align-items:center;gap:8px;margin:0;font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.01em}
-/* номер шага у блока: как кружки шагов заказа, но мельче */
-.bn{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:50%;background:var(--acc);color:var(--on-acc);font-size:12px;font-weight:600;letter-spacing:0}
+/* пиктограмма блока вместо номера: силуэт фирменным синим разной плотности, без контуров; скрепки и строки — прорези цветом фона блока */
+.bni{flex:none;overflow:visible}
+.bni .a{fill:var(--acc)}
+.bni .a5{fill:var(--acc);opacity:.45}
+.bni .a2{fill:var(--acc);opacity:.2}
+.bni .ad{fill:var(--sel-dark)}
+.bni .bk{fill:var(--card)}
 .card>h3 small{font-size:12px;font-weight:400;color:var(--mute);margin-left:4px;letter-spacing:0}
 .gz{display:flex;flex-direction:column;gap:20px;min-width:0}
 .gi{container-type:inline-size}
-/* шаги заказа крупно на всю ширину над параметрами и сценой: под ними обе колонки начинаются вровень */
-.bigsteps{display:flex;align-items:center;gap:32px;padding-bottom:16px;box-shadow:0 1px 0 var(--rule)}
-.bigsteps .bt{flex:none;margin:0;font-size:30px;font-weight:600;letter-spacing:-.015em}
-.bigsteps .steps{flex:1;gap:0;margin:0;font-size:16px}
+/* шаги заказа над параметрами и сценой — на той же сетке, что колонки под ними: шаги по ширине левой колонки,
+   «Сбросить расчёт» у правого края правой. Заголовок страницы виден только экранным читалкам */
+.bigsteps{display:grid;grid-template-columns:minmax(0,63fr) minmax(0,37fr);column-gap:24px;align-items:center;padding-bottom:16px;box-shadow:0 1px 0 var(--rule)}
+.bigsteps.flw{grid-template-columns:minmax(0,1fr) 340px;column-gap:56px}
+.bigsteps .steps{min-width:0;gap:0;margin:0;font-size:16px}
 .bigsteps .steps li{align-items:center}
 .bigsteps .steps li+li{flex:1}
 .bigsteps .steps li+li::before{content:"";flex:1;height:1px;min-width:24px;margin:0 16px;background:var(--rule-2)}
@@ -94,17 +100,17 @@ html:not(.stagebig) .lzs.no3d .stagehold{display:none}
 .bigsteps .st i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--fill);font-family:inherit;font-size:12px;font-weight:600}
 .bigsteps li.now .st i{background:var(--acc);color:var(--on-acc)}
 .bigsteps li.done .st i{background:var(--ink);color:var(--on-acc)}
-.bigsteps .lnk{flex:none;font-size:16px}
+.bigsteps .lnk{justify-self:end;font-size:16px;white-space:nowrap}
 /* та же строка в панели после прокрутки: расположение прежнее, всё мельче, высота 40 px */
 /* строка шагов сверху: появляется, когда большая ушла за верхний край; поверх страницы, не сдвигает её */
 #tsteps{display:none;position:fixed;top:0;left:0;right:0;z-index:30;background:var(--sheet);box-shadow:0 1px 0 var(--rule);padding:0 max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px))}
 html.stepsout #tsteps{display:block;animation:fadeIn .3s ease}
-#tsteps .mini{display:flex;max-width:1320px;height:var(--mini);margin:0 auto;padding:0;gap:16px;box-shadow:none}
-.bigsteps.mini .bt{font-size:16px}
+#tsteps .mini{max-width:1320px;height:var(--mini);margin:0 auto;padding:0;box-shadow:none}
+#tsteps .mini.flw{max-width:1152px}
 .bigsteps.mini .steps{font-size:13px}
 .bigsteps.mini .st{gap:6px;padding:0}
 .bigsteps.mini .st i{width:20px;height:20px;font-size:11px}
-.bigsteps.mini .steps li+li::before{margin:0 12px}
+.bigsteps.mini .steps li+li::before{min-width:8px;margin:0 12px}
 .bigsteps.mini .lnk{font-size:13px}
 /* на шагах после расчёта — та же строка шагов, что на «Расчёте», вверху страницы; не хватает ширины — шаги без линий, как ниже */
 .fstw{max-width:1200px;margin:0 auto;padding:24px max(24px,env(safe-area-inset-right,0px)) 0 max(24px,env(safe-area-inset-left,0px));container-type:inline-size}
@@ -275,12 +281,10 @@ html{scroll-padding-bottom:calc(var(--bar) + 16px)}
   .tc5 .tls{grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-flow:row!important}
   .tc6 .tls{grid-template-columns:repeat(6,minmax(0,1fr))!important;grid-auto-flow:row!important}
 }
-/* уже 1100 px: плашки параметров в две колонки, на самых узких телефонах в одну, сроки всегда в одну.
-   «Раскладка» здесь выключена: её колонки на таких экранах не действуют */
+/* уже 1100 px: плашки параметров в две колонки, на самых узких телефонах в одну, сроки всегда в одну */
 @media (max-width:1099px){
   .tls{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-flow:row!important}
   [data-g="prod"] .tls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-  .layb,html.team .layb,.lyt{display:none}
 }
 /* телефон: сроки строками, дата и цена в одну линию */
 @media (max-width:860px){
@@ -292,41 +296,6 @@ html{scroll-padding-bottom:calc(var(--bar) + 16px)}
 @media (max-width:359px){
   .tls{grid-template-columns:minmax(0,1fr)!important}
 }
-/* режим «Раскладка»: рамки зон, блоков и групп, ручки ⠿ и панель снизу */
-.layb{display:none;border:0;border-radius:var(--r);background:var(--fill);padding:8px 14px;font-size:14px;font-weight:400;color:var(--ink)}
-html.team .layb{display:inline-block}
-.layb:hover{background:var(--fill-h)}
-.layb[aria-pressed="true"]{background:var(--acc);color:var(--on-acc)}
-html.lay .ft{padding-bottom:96px}
-html.lay .lz{min-height:96px;border-radius:var(--rb);outline:1.5px dashed var(--rule-2);outline-offset:6px}
-html.lay .lz:empty{display:flex}
-html.lay .lz:empty::before{content:"Перетащите блок сюда";margin:auto;font-size:14px;color:var(--mute)}
-html.lay .lzs{outline-offset:-2px}
-html.lay .blk{border-radius:var(--rb);outline:1.5px dashed var(--acc);outline-offset:3px}
-html.lay .gi{border-radius:8px;outline:1px dashed var(--fb);outline-offset:4px}
-.lyh,.lgh{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12px;color:var(--acc-h)}
-.lyh{margin-bottom:8px}
-.lyh>b{font-size:14px}
-.lgh>b{font-weight:600}
-.lyd{width:28px;height:28px;flex:none;border:0;border-radius:6px;background:var(--acc-bg);color:var(--acc-h);font-size:16px;line-height:1;cursor:grab;touch-action:none}
-.lya{width:28px;height:28px;border:0;border-radius:6px;background:var(--acc-bg);color:var(--acc-h)}
-.lyh .lya:first-of-type{margin-left:auto}
-.lyn{display:inline-flex;flex-wrap:wrap;align-items:center;gap:2px}
-.lyl{margin-right:4px;color:var(--mute)}
-.lyn button{min-width:26px;height:26px;padding:0 6px;border:0;border-radius:6px;background:var(--fill);color:var(--ink);font-size:12px}
-.lyn button[aria-pressed="true"]{background:var(--acc);color:var(--on-acc)}
-.dragging{opacity:.35}
-html.dragon,html.dragon *{cursor:grabbing!important;-webkit-user-select:none;user-select:none}
-.dropm{position:fixed;z-index:80;border-radius:2px;background:var(--acc);pointer-events:none}
-.dropm[hidden]{display:none}
-.lyt{position:fixed;left:50%;bottom:calc(var(--bar) + 16px);z-index:60;transform:translateX(-50%);display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;width:max-content;max-width:calc(100% - 32px);padding:10px 14px;border-radius:14px;background:var(--ink);color:#FFFFFF;font-size:12px;box-shadow:0 12px 40px rgba(20,24,28,.28)}
-.lyt .lyl{color:#B8BBC2}
-.lyt .lyn button{background:#3A3D44;color:#FFFFFF}
-.lyt .lyn button[aria-pressed="true"]{background:var(--acc)}
-.lyt .lyc{display:inline-flex;align-items:center;gap:4px;margin-right:8px}
-.lyt .lyc button{width:22px;height:22px;border:0;border-radius:5px;background:#3A3D44;color:#FFFFFF}
-.lyo{border:0;border-radius:8px;padding:6px 12px;background:#3A3D44;color:#FFFFFF;font-size:12px}
-.lyok{background:var(--acc)}
 /* сравнение тиражей */
 .modal.mcmp{width:min(880px,calc(100% - 32px))}
 .modal.msos{width:min(560px,calc(100% - 32px))}
@@ -623,6 +592,7 @@ label.f{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:14p
 /* уже 1024 px: все блоки в одну колонку в порядке раскладки — параметры, под ними сцена и срок. Закреплённой колонки нет */
 @media (max-width:1023px){
   .lw{display:flex;flex-direction:column;align-items:stretch}
+  .bigsteps:not(.flw){grid-template-columns:minmax(0,1fr) auto;column-gap:16px}
   .lz,.lzs{display:contents}
 }
 /* планшет: сцена той же высоты, что в незакреплённой колонке. Остальное как на компьютере: панель сверху, шаги, цена в панели */
@@ -707,7 +677,6 @@ label.f{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:14p
   .steps,.oc,.osep,.fstw{display:none}
   .ord{display:contents}
   .bigsteps{padding:0;box-shadow:none}
-  .bigsteps .bt{font-size:24px}
   .bigsteps .lnk{margin-left:auto}
   /* первая половина экрана: шапка, панель и сцена. Держатель хранит место, пока сцена встроена в экран при прокрутке */
   .stagehold{height:calc(50vh - var(--hd) - var(--bar));height:calc(50svh - var(--hd) - var(--bar))}
@@ -758,10 +727,9 @@ label.f{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:14p
   .chips .chip{flex:1;min-width:0}
 }
 /* плавность: состояния кнопок и плашек меняются за 0.18 с, новые элементы въезжают снизу на 16 px за 0.5 с, как цена в панели */
-.tl,.ro,.chip,.seg button,.qb,.stepper button,.tab,.lnk,.cta,.btn2,.agbtn,.layb,.savb,.bigx,.bigh,.lyn button,.lyd,.lya,.lyo,.x,.bp,.st,.fab,.tl small{transition:background-color .3s ease,box-shadow .3s ease,color .3s ease,opacity .3s ease,transform .3s ease}
-.tl:active:not([disabled]),.seg button:active,.cta:active:not([disabled]),.btn2:active:not([disabled]),.agbtn:active:not([disabled]),.qb:active,.stepper button:active,.bigx:active,.bigh:active,.savb:active,.layb:active{transform:scale(.98)}
-.cmpk,.savi,.gi,.blk,.lz{transition:box-shadow .3s ease,outline-color .3s ease,opacity .3s ease}
-.dragging{transition:opacity .3s ease}
+.tl,.ro,.chip,.seg button,.qb,.stepper button,.tab,.lnk,.cta,.btn2,.agbtn,.savb,.bigx,.bigh,.x,.bp,.st,.fab,.tl small{transition:background-color .3s ease,box-shadow .3s ease,color .3s ease,opacity .3s ease,transform .3s ease}
+.tl:active:not([disabled]),.seg button:active,.cta:active:not([disabled]),.btn2:active:not([disabled]),.agbtn:active:not([disabled]),.qb:active,.stepper button:active,.bigx:active,.bigh:active,.savb:active{transform:scale(.98)}
+.cmpk,.savi,.gi,.blk{transition:box-shadow .3s ease,outline-color .3s ease,opacity .3s ease}
 .appear{animation:appearIn .3s ease-out}
 .drawer.enter{animation:sheetIn .3s cubic-bezier(.2,.8,.2,1)}
 .scrim.enter{animation:fadeIn .3s ease}
@@ -769,7 +737,6 @@ label.f{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:14p
 #layer.closing .drawer,#layer.closing .scrim{opacity:0;transition:opacity .3s ease}
 #layer.closing .modal{opacity:0;transform:translate(-50%,-48%) scale(.98);transition:opacity .3s ease,transform .3s ease}
 .toast:not([hidden]){animation:toastIn .3s cubic-bezier(.2,.8,.2,1)}
-.lyt{animation:toastIn .3s cubic-bezier(.2,.8,.2,1)}
 html.stagebig body::before{animation:fadeIn .3s ease}
 html.stagebig .stagecol{animation:bigIn .3s cubic-bezier(.2,.8,.2,1)}
 html.bigout body::before{animation:fadeOut .3s ease forwards}
@@ -800,14 +767,6 @@ html.bigout .stagecol{animation:bigOut .3s ease-in forwards}
 /* цена до выбора тиража — сдержанно, крупно — после */
 .bp.from b{font-size:15px;font-weight:500;color:var(--mute)}
 .sprice.from>b{font-size:17px;font-weight:500;color:var(--mute)}
-/* переключатель вида плашек в шапке; на телефоне его нет: там «Ровные» — та же сетка, что раньше */
-/* переключатель вида — заметный: синяя подложка, выбранный вариант залит синим */
-.hd .tlsw{flex:none;align-items:center;gap:2px;padding:3px;border-radius:12px;background:var(--tint);box-shadow:inset 0 0 0 1.5px var(--tint-2)}
-@media (max-width:1179px){.hd .tlsw{display:none}}
-.tlsl{font-size:13px;font-weight:600;color:var(--sel-dark);margin:0 6px 0 8px}
-.hd .tlsw button{min-height:32px;padding:4px 11px;font-size:13px;background:transparent;box-shadow:none;color:var(--sel-dark);border-radius:9px}
-.hd .tlsw button:hover{background:var(--tint-2)}
-.hd .tlsw button[aria-pressed=true]{background:var(--acc);color:var(--on-acc);box-shadow:none}
 /* компактные плашки параметров. «Ровные»: плашки группы одной ширины (fitTiles: по самой длинной подписи, не уже 136 px у текста и 88 px у цифр),
    подпись в одну строку — плашка ниже; ряд не помещается — перенос. На телефоне цифры по 4 в ряд (на самых узких по 3), текст по 2 */
 html.tl-eq .blk-broch .tl,html.tl-eq .blk-cover .tl,html.tl-eq .blk-inner .tl{container-type:normal}
@@ -848,9 +807,8 @@ html.tl-gfx .tls.tgn .tl.tg{gap:8px;padding:10px}
 <header class="hd">
   <div class="logo">TIRIO</div>
   <div class="mstep" id="mstep"></div>
-  <button class="layb" data-lact="toggle" aria-pressed="false">Раскладка</button>
+  
   <button class="savb" data-act="saved"><svg class="savic" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4.5 2.5h9v13L9 12.3l-4.5 3.2z"/></svg><span class="savt">Сохранённые</span> <b id="savn">0</b></button>
-  <span class="seg tlsw" role="group" aria-label="Вид страницы"><span class="tlsl">Вид</span><button data-tlm="eq" aria-pressed="true">Ровные</button><button data-tlm="gfx" aria-pressed="false">С графикой</button></span>
   <div class="hmgr">Менеджер: <a href="#" data-act="tg">Telegram</a> · <a href="#" data-act="call" class="num">+7 812 000-00-00</a></div>
   <div class="who"><span class="ava" aria-hidden="true">СС</span><span class="wt"><b>Северная студия</b>агентство</span></div>
 </header>
@@ -983,7 +941,7 @@ function specLine(){return fmtName(s)+(s.orient==='land'?', альбомная':
 /* ширина сцены на десктопе: узкая для работы и половина блока. Выбор запоминаем */
 var TABS=[['cover','Обложка'],['spread','Разворот'],['paper','Бумага'],['lam','Ламинация']];
 function stageHTML(){if(!TABS.some(function(t){return t[0]===stage}))stage='cover';
-  return '<div class="view" id="view"><div class="scene pics" id="scene" role="img" aria-label="'+esc(specLine())+'"></div>'+'<button class="bigx" data-act="big" aria-pressed="'+stageBig+'" aria-label="'+(stageBig?'Свернуть изделие':'Изделие на весь экран')+'">'+(stageBig?'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M7 2.5V7H2.5M11 2.5V7h4.5M7 15.5V11H2.5M11 15.5V11h4.5"/></svg>':'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2.5 7V2.5H7M15.5 7V2.5H11M2.5 11v4.5H7M15.5 11v4.5H11"/></svg>')+'</button></div>'
+  return '<div class="view" id="view"><div class="scene pics" id="scene" role="img" aria-label="'+esc(specLine())+'"></div>'+'<button class="bigx" data-act="big" aria-pressed="'+stageBig+'" aria-label="'+(stageBig?'Свернуть изделие':'Изделие на весь экран')+'">'+(stageBig?'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M7 2.5V7H2.5M11 2.5V7h4.5M7 15.5V11H2.5M11 15.5V11h4.5"/></svg>':'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2.5 7V2.5H7M15.5 7V2.5H11M2.5 11v4.5H7M15.5 11v4.5H11"/></svg>')+'</button>'+(stageTall?tallBtn():'')+'</div>'
    +'<div class="tabs" role="group" aria-label="Ракурс">'+TABS.map(function(t){return '<button class="tab" data-stage="'+t[0]+'" aria-pressed="'+(stage===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>';
 }
 
@@ -1240,7 +1198,7 @@ var vsz=null,drx=0,dry=0,lastStage=null,dragS=null;
 var stageBig=false;
 /* компьютер: сцена выше на половину доступного экрана, без попапа; блоки под ней уходят вниз. Выбор не запоминается */
 var stageTall=false;
-function tallBtn(){if(stageBig)return '';return '<button class="bigh" data-act="tall" aria-pressed="'+stageTall+'" aria-label="'+(stageTall?'Уменьшить 3D-модель по высоте':'Увеличить 3D-модель по высоте')+'">'
+function tallBtn(){if(stageBig)return '';return '<button class="bigh" data-act="tall" aria-pressed="'+stageTall+'" aria-label="'+(stageTall?'Свернуть изделие':'Развернуть изделие')+'">'
   +(stageTall?'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h12M9 1.5v5M6 4l3 2.5L12 4M9 16.5v-5M6 14l3-2.5 3 2.5"/></svg>'
   :'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v14M5.5 5.5 9 2l3.5 3.5M5.5 12.5 9 16l3.5-3.5"/></svg>')+'</button>'}
 /* высота сцены меняется плавно, за 0.3 с, как открываются окна; блоки под ней едут вместе с ней. Пока идёт анимация, колонку не подгоняем — в конце подгонка заново */
@@ -1294,12 +1252,9 @@ function fitSegs(){document.querySelectorAll('#app .grp>.seg').forEach(function(
   if(over())g.classList.add('sgn')})}
 /* плашки зависят от ширины колонки, а колонка — от высоты плашек: у незакреплённой колонки своя прокрутка сужает её на 15 px.
    Поэтому второй проход — уже в итоговом состоянии колонки */
-/* v5.5: плашки параметров не растягиваются на всю ширину. «Ровные» — все плашки группы шириной по самой длинной подписи
-   (не шире, чем помещается в ряд), на телефоне сеткой как раньше. «С графикой» — те же ровные плашки, у формата и печати картинка */
-var TLM=['eq','gfx'],tlMode='eq';try{var tl0=localStorage.getItem('tirio55-tlm');if(TLM.indexOf(tl0)>=0)tlMode=tl0}catch(e){}
-function setTlm(m){tlMode=TLM.indexOf(m)>=0?m:'eq';var r=document.documentElement;r.classList.add('tl-eq');r.classList.toggle('tl-gfx',tlMode==='gfx');try{localStorage.setItem('tirio55-tlm',tlMode)}catch(e){}
-  document.querySelectorAll('[data-tlm]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.tlm===tlMode))})}
-setTlm(tlMode);
+/* v5.5: плашки параметров не растягиваются на всю ширину: все плашки группы шириной по самой длинной подписи
+   (не шире, чем помещается в ряд), на телефоне сеткой как раньше. У формата и печати — картинка и подпись */
+document.documentElement.classList.add('tl-eq','tl-gfx');
 function fitTiles(){var eq=!isPhone();
   document.querySelectorAll('#app .tls').forEach(function(g){if(!g.querySelector(':scope>.tg'))return;var gp=parseFloat(getComputedStyle(g).columnGap)||8;var gc=g.clientWidth>=4*150+3*gp?4:2;g.style.setProperty('--gc',gc);g.classList.toggle('tgn',(g.clientWidth-(gc-1)*gp)/gc<180)});
   document.querySelectorAll('#app .blk-broch .tls,#app .blk-cover .tls,#app .blk-inner .tls').forEach(function(g){g.style.removeProperty('--tlw');if(!eq)return;
@@ -1320,7 +1275,7 @@ function fitCol(){var z=document.querySelector('.lzs');if(!z||tallAnim)return;
   if(getComputedStyle(z).display==='contents')return;
   /* место между строкой шагов сверху и панелью снизу считаем сразу со строкой шагов, чтобы сцена не прыгала при прокрутке */
   var bi=document.querySelector('#pbar .bi'),barH=bi?bi.offsetHeight:0,mini=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--mini'))||0,bar0=barH+mini,
-      top0=(document.documentElement.classList.contains('stepsout')?mini:0)+16;
+      top0=(document.documentElement.classList.contains('stepsout')?mini:0)+16,zpb=parseFloat(getComputedStyle(z).paddingBottom)||0;
   if(z.scrollHeight>z.clientHeight+1){
     var st=z.querySelector('.blk-stage'),sh=st?Math.max(parseFloat(getComputedStyle(st).flexBasis)||0,200):282;z.style.setProperty('--stgh',sh+'px');
     z.classList.add('tall');
@@ -1328,7 +1283,7 @@ function fitCol(){var z=document.querySelector('.lzs');if(!z||tallAnim)return;
     if(over>0)z.style.setProperty('--stgh',Math.max(160,Math.floor(sh-over))+'px');
     /* и ужатая сцена не влезает: вместо неё кнопка, 3D открывается крупно поверх страницы */
     if(z.offsetHeight>room+1)z.classList.add('no3d');
-    z.style.top=Math.min(top0,innerHeight-barH-16-z.offsetHeight)+'px'}
+    z.style.top=Math.min(top0,innerHeight-barH-16-z.offsetHeight+zpb)+'px'}
   /* сцена развёрнута: к её высоте прибавляется половина доступного экрана, но не больше экрана; сцена не прячется за кнопку.
      Колонка держится верхним краем под строкой шагов, чтобы сцена была видна, пока листаешь параметры; срок и оформление — внизу страницы */
   if(stageTall){var sg=z.querySelector('.blk-stage'),base=z.classList.contains('no3d')?0:sg.offsetHeight,room2=innerHeight-bar0-32;
@@ -1337,10 +1292,10 @@ function fitCol(){var z=document.querySelector('.lzs');if(!z||tallAnim)return;
   /* в конце страницы сетка заканчивается над подвалом, и колонку толкало бы под строку шагов:
      даём ей опуститься в зону подвала (справа там пусто), но не ниже панели заказа */
   var lw=z.parentElement,tail=document.documentElement.scrollHeight-(lw.getBoundingClientRect().bottom+scrollY)+(parseFloat(getComputedStyle(lw).paddingBottom)||0),
-      dip=Math.ceil(top0+z.offsetHeight-(innerHeight-tail)),lim=Math.floor(tail-barH-16);
+      dip=Math.ceil(top0+z.offsetHeight-(innerHeight-tail)),lim=Math.floor(tail-barH-16+zpb);
   if(dip>0&&lim>0)z.style.marginBottom=-Math.min(dip,lim)+'px'}
 addEventListener('resize',function(){cancelAnimationFrame(fitRaf);fitRaf=requestAnimationFrame(fitAll)});
-addEventListener('resize',function(){vsz=null;sync3D(true);fabCheck();if(lay&&innerWidth<1100){lay=false;render()}});
+addEventListener('resize',function(){vsz=null;sync3D(true);fabCheck()});
 /* телефон: после первой половины экрана появляется кнопка, сцена встаёт в верхнюю половину текущего экрана */
 function isPhone(){return innerWidth<=860}
 /* кнопка «3D» на телефоне видна, когда сцены нет на экране */
@@ -1375,8 +1330,7 @@ function ro(attr,val,sel,t,sub,o){o=o||{};var rd=o.rd||'';
 /* плитка варианта: название и подпись (размер формата), без разницы в цене; пустой подписи нет */
 function tl(attr,val,sel,t,sm,o){o=o||{};if(o.g)return '<button class="tl tg" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+o.g+'<span class="tgt"><b>'+t+'</b>'+(sm?'<small>'+sm+'</small>':'')+'</span></button>';
   return '<button class="tl'+(o.pre?' tlc':'')+'" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+(o.pre||'')+'<b>'+t+'</b>'+(sm?'<small class="num">'+sm+'</small>':'')+'</button>'}
-/* вид «С графикой»: формат — лист А4 и доля, которую занимает брошюра; печать — лицо и оборот листа (цвет, ч/б или пусто) */
-function gfx(){return tlMode==='gfx'}
+/* формат — лист А4 и доля, которую занимает брошюра; печать — лицо и оборот листа (цвет, ч/б или пусто) */
 function icoFmt(v,land){var W=land?40:30,H=land?30:40,o='<svg class="tgi" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">';
   if(v==='cu')return o+'<rect class="tgd" x="1" y="1" width="'+(W-2)+'" height="'+(H-2)+'" rx="2.5"/></svg>';
   var k={a4:1,a5:.707,a6:.5}[v],w=(W-2)*k,h=(H-2)*k;
@@ -1387,7 +1341,7 @@ function icoPrint(v){var c=v.charAt(0)==='4'?'tgc':'tgk',b=v.charAt(2)==='0'?'tg
 var G={
   fmt:function(){
     var a='<h4 class="sh" id="h-fmt">Формат</h4><div class="tls t4" role="group" aria-label="Формат">';
-    FMT.forEach(function(f){var d=s.orient==='land'?[f.h,f.w]:[f.w,f.h],sel=s.fmt===f.v;a+=gfx()?tl('fmt',f.v,sel,f.t,f.v==='cu'?'':d[0]+' × '+d[1]+' мм',{g:icoFmt(f.v,s.orient==='land')}):tl('fmt',f.v,sel,f.t,'')});
+    FMT.forEach(function(f){var d=s.orient==='land'?[f.h,f.w]:[f.w,f.h],sel=s.fmt===f.v;a+=tl('fmt',f.v,sel,f.t,f.v==='cu'?'':d[0]+' × '+d[1]+' мм',{g:icoFmt(f.v,s.orient==='land')})});
     a+='</div>';
     if(s.fmt==='cu'){var ce=cuErr();a+='<div class="cust" id="cust"><input id="cw" class="in num" type="number" placeholder="ширина" value="'+esc(s.cw)+'" aria-label="Ширина, мм" aria-invalid="'+ce.w+'"'+(ce.t?' aria-describedby="cuerr"':'')+'><span>×</span><input id="ch" class="in num" type="number" placeholder="высота" value="'+esc(s.ch)+'" aria-label="Высота, мм" aria-invalid="'+ce.h+'"'+(ce.t?' aria-describedby="cuerr"':'')+'><span>мм, от 70×70 до 297×420. Ориентация — по сторонам</span></div>'+(ce.t?'<p class="ferr" id="cuerr">'+ce.t+'</p>':'')}
     if(fmtBad())a+='<div class="why" id="fmtwhy"><p>Макет свёрстан под '+file.d+' мм — после смены формата его нужно заменить.</p><button class="lnk" data-act="fitfmt">Вернуть '+file.d+' мм</button></div>';
@@ -1411,7 +1365,7 @@ var G={
   cprint:function(){
     if(s.cover!=='sep')return '';
     var b='<h4 class="sh">Печать</h4><div class="tls t4 tnum" role="group" aria-label="Печать обложки">';
-    PRINT.forEach(function(p){b+=tl('cprint',p.v,s.cprint===p.v,p.v,gfx()?p.s:'',gfx()?{g:icoPrint(p.v)}:0)});
+    PRINT.forEach(function(p){b+=tl('cprint',p.v,s.cprint===p.v,p.v,p.s,{g:icoPrint(p.v)})});
     return b+'</div>'},
   lam:function(){
     var la=lamAllowed(s),cl=lamOf(s),o='<h4 class="sh" id="h-lam">Ламинация</h4><div class="tls t4 tw" role="group" aria-label="Ламинация обложки">';
@@ -1429,7 +1383,7 @@ var G={
     return b+'</div>'},
   print:function(){
     var b='<h4 class="sh" id="h-print">Печать</h4><div class="tls t4 tnum" role="group" aria-label="Печать блока">';
-    PRINT.forEach(function(p){b+=tl('print',p.v,s.print===p.v,p.v,gfx()?p.s:'',gfx()?{g:icoPrint(p.v)}:0)});
+    PRINT.forEach(function(p){b+=tl('print',p.v,s.print===p.v,p.v,p.s,{g:icoPrint(p.v)})});
     return b+'</div>'},
   qin:function(){
     return '<div class="qty"><div class="qbox"><button class="qb" data-q="-50" aria-label="Меньше на 50"'+(s.qty<=50?' disabled':'')+'>−</button><input id="qty" class="qin num" type="number" inputmode="numeric" min="1" max="2000" value="'+(s.qty?s.qty:'')+'" placeholder="—" aria-label="Тираж, экземпляров" aria-describedby="qnote"><button class="qb" data-q="50" aria-label="Больше на 50"'+(s.qty>=500?' disabled':'')+'>+</button></div><span class="qu">экз.</span></div><p class="note" id="qnote"></p>'},
@@ -1555,56 +1509,29 @@ var BLK={
   terms:{t:'Срок и оформление',g:['prod','ent']},
   act:{t:'Сравнение и КП',g:['cmpb','kp']}
 };
-var GT={fmt:'Формат',pg:'Полосы',cmat:'Бумага обложки',cprint:'Печать обложки',cdens:'Плотность обложки',lam:'Ламинация',mat:'Бумага блока',dens:'Плотность блока',print:'Печать блока',qin:'Свой тираж',qset:'Быстрый выбор',cmpb:'Сравнить и сохранить',prod:'Срок',ent:'Оформление',kp:'КП'};
-var BARP={sum:'Сводка',price:'Цена',cta:'Кнопка'};
-var LAY0={cols:2,w:0,top:['steps'],c:[['broch','cover','inner','qty'],['stage','terms','act']],g:{},gc:{},tc:{},bar:['sum','price','cta']};
-/* доли ширины колонок */
-var WP={2:[[63,37],[50,50],[60,40],[70,30]],3:[[1,1,1],[2,1,1],[1,2,1]]};
-function layOk(L){try{var all=Object.keys(BLK),seen=[];if(!(L.cols>=1&&L.cols<=3)||L.c.length!==L.cols||L.bar.length!==3)return false;
-  [L.top].concat(L.c).forEach(function(z){z.forEach(function(b){seen.push(b)})});
-  return seen.length===all.length&&all.every(function(b){return seen.indexOf(b)>=0})}catch(e){return false}}
-var LAY=clone(LAY0),lay=false,team=false;
-try{team=localStorage.getItem('tirio5-team')==='1'}catch(e){}
-try{var savedLay=JSON.parse(localStorage.getItem('tirio55-lay')||'null');if(savedLay&&layOk(savedLay))LAY=savedLay}catch(e){}
-function laySave(){try{localStorage.setItem('tirio55-lay',JSON.stringify(LAY))}catch(e){}}
-function grpOrder(b){var d=BLK[b].g,o=LAY.g[b];return o&&o.length===d.length&&d.every(function(x){return o.indexOf(x)>=0})?o:d}
-function zoneArr(z){return z==='top'?LAY.top:LAY.c[+z]}
-function moveBlock(id,z,i){[LAY.top].concat(LAY.c).forEach(function(a){var k=a.indexOf(id);if(k>=0)a.splice(k,1)});zoneArr(z).splice(i,0,id)}
-function setCols(n){while(LAY.c.length>n){var x=LAY.c.pop();LAY.c[LAY.c.length-1]=LAY.c[LAY.c.length-1].concat(x)}while(LAY.c.length<n)LAY.c.push([]);LAY.cols=n;LAY.w=0}
-/* кнопки 1–6 и «А» — как задумано в макете */
-function nBtns(k,id,cur){var h='<span class="lyn" role="group" aria-label="'+(k==='tc'?'Плашек в ряд':'Групп в ряд')+'"><span class="lyl">'+(k==='tc'?'Плашек в ряд':'Групп в ряд')+'</span>';
-  for(var i=1;i<=6;i++)h+='<button data-'+k+'="'+id+'" data-n="'+i+'" aria-pressed="'+(cur===i)+'">'+i+'</button>';
-  return h+'<button data-'+k+'="'+id+'" data-n="0" aria-pressed="'+!cur+'" title="Как задумано">А</button></span>'}
-function grpWrap(g){
-  var h=G[g]();if(!h&&!lay)return '';var tc=LAY.tc[g];
-  return '<div class="grp gi'+(tc?' tc'+tc:'')+'" id="g-'+g+'" data-g="'+g+'">'
-   +(lay?'<div class="lgh"><button class="lyd" data-drag="g" aria-label="Перетащить: '+GT[g]+'">⠿</button><b>'+GT[g]+'</b>'+(/class="tls/.test(h)?nBtns('tc',g,tc):'')+'</div>':'')
-   +(h||'<p class="fine">Видна, когда обложка не из бумаги блока</p>')+'</div>'}
-var PARB=['broch','cover','inner','qty'];
-function blkNo(id){return [].concat.apply(LAY.top,LAY.c).filter(function(b){return PARB.indexOf(b)>=0}).indexOf(id)+1}
+/* раскладка страницы: строка шагов сверху, слева параметры изделия, справа сцена, срок, сравнение и КП */
+var LAY={top:['steps'],c:[['broch','cover','inner','qty'],['stage','terms','act']]};
+function grpWrap(g){var h=G[g]();return h?'<div class="grp gi" id="g-'+g+'" data-g="'+g+'">'+h+'</div>':''}
+var BICO={
+  broch:'<rect class="a2" x="4" y="2.5" width="13" height="19" rx="1"/><rect class="a" x="4" y="11.5" width="8.5" height="10" rx="1"/><rect class="ad" x="19.5" y="2.5" width="1" height="19" rx=".5"/>',
+  cover:'<rect class="a" x="5" y="2.5" width="14" height="19" rx="1"/><rect class="ad" x="5" y="2.5" width="2.5" height="19" rx="1"/><rect class="bk" x="10" y="7" width="6" height="1"/><rect class="bk" x="10" y="9.5" width="4" height="1"/>',
+  inner:'<path class="a5" d="M12 2.5H3.5a1 1 0 0 0-1 1v17a1 1 0 0 0 1 1H12z"/><path class="a" d="M12 2.5h8.5a1 1 0 0 1 1 1v17a1 1 0 0 1-1 1H12z"/><rect class="bk" x="11.3" y="5.5" width="1.4" height="3" rx=".4"/><rect class="bk" x="11.3" y="15.5" width="1.4" height="3" rx=".4"/>',
+  qty:'<rect class="a2" x="8.5" y="2.5" width="12" height="15" rx="1"/><rect class="bk" x="5.5" y="4" width="13" height="16" rx="1.4"/><rect class="a5" x="6" y="4.5" width="12" height="15" rx="1"/><rect class="bk" x="3" y="6" width="13" height="16" rx="1.4"/><rect class="a" x="3.5" y="6.5" width="12" height="15" rx="1"/>'};
+function blkIco(id){return '<svg class="bni" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">'+BICO[id]+'</svg>'}
 function blkHTML(id){
-  var B=BLK[id],gz=B.g?'<div class="gz'+(LAY.gc[id]?' gc'+LAY.gc[id]:'')+'">'+grpOrder(id).map(grpWrap).join('')+'</div>':'',body;
-  if(id==='steps')body='<div class="bigsteps"><h2 class="bt">Брошюра на скрепке</h2>'+stepsHTML()+'<button class="lnk" data-act="reset">Сбросить</button></div>';
+  var B=BLK[id],gz=B.g?'<div class="gz">'+B.g.map(grpWrap).join('')+'</div>':'',body;
+  if(id==='steps')body='<div class="bigsteps"><h2 class="vh">Брошюра на скрепке</h2>'+stepsHTML()+'<button class="lnk" data-act="reset">Сбросить расчёт</button></div>';
   else if(id==='stage')body='<div class="stagehold"><div class="stagecol"><div class="stage" id="stage">'+stageHTML()+'</div></div></div>'
-   +'<button class="btn2 s3d" data-act="big"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="14" height="12" rx="2"/><circle cx="6.5" cy="7.2" r="1.3"/><path d="M2.6 13.6 7 9.8l2.8 2.4 2.4-1.9 3.2 2.9"/></svg>Показать изделие</button>';
+   +'<button class="btn2 s3d" data-act="tall"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="14" height="12" rx="2"/><circle cx="6.5" cy="7.2" r="1.3"/><path d="M2.6 13.6 7 9.8l2.8 2.4 2.4-1.9 3.2 2.9"/></svg>Показать изделие</button>';
   else if(id==='terms')body=(calcErr?'<div class="note err"><b>Не удалось посчитать цену.</b> Параметры сохранены, цены вернутся после нового расчёта. <button class="lnk" data-act="retry">Посчитать ещё раз</button></div>':'')+'<div class="sidegrp">'+gz+'</div>';
   else if(id==='act')body=spriceHTML()+gz;
-  else body='<section class="card"><h3'+(id==='qty'?' id="h-qty"':'')+'><span class="bn" aria-hidden="true">'+blkNo(id)+'</span><span>'+B.h+'</span></h3>'+gz+'</section>';
+  else body='<section class="card"><h3'+(id==='qty'?' id="h-qty"':'')+'>'+blkIco(id)+'<span>'+B.h+'</span></h3>'+gz+'</section>';
   return '<div class="blk blk-'+id+(id==='terms'||id==='act'?' sbx':'')+'" data-b="'+id+'">'
-   +(lay?'<div class="lyh"><button class="lyd" data-drag="b" aria-label="Перетащить блок: '+B.t+'">⠿</button><b>'+B.t+'</b>'+(B.g?nBtns('gc',id,LAY.gc[id]):'')+'<button class="lya" data-mv="'+id+'" data-d="-1" aria-label="Выше">↑</button><button class="lya" data-mv="'+id+'" data-d="1" aria-label="Ниже">↓</button></div>':'')
+
    +body+'</div>'}
-function layBar(){
-  var h='<div class="lyt" role="region" aria-label="Раскладка"><b>Раскладка</b><span class="lyn" role="group" aria-label="Колонки страницы"><span class="lyl">Колонки</span>';
-  for(var i=1;i<=3;i++)h+='<button data-lcols="'+i+'" aria-pressed="'+(LAY.cols===i)+'">'+i+'</button>';
-  h+='</span>';
-  if(WP[LAY.cols])h+='<span class="lyn" role="group" aria-label="Ширина колонок"><span class="lyl">Ширина</span>'+WP[LAY.cols].map(function(w,i){var t=LAY.cols===2?w.join('/'):w.join(':');return '<button data-lw="'+i+'" aria-pressed="'+(LAY.w===i)+'">'+t+'</button>'}).join('')+'</span>';
-  h+='<span class="lyn"><span class="lyl">Панель</span>'+LAY.bar.map(function(p,i){return '<span class="lyc">'+(i?'<button data-lbar="'+i+'" aria-label="'+BARP[p]+' левее">←</button>':'')+BARP[p]+'</span>'}).join('')+'</span>';
-  return h+'<button class="lyo" data-lact="copy">Скопировать</button><button class="lyo" data-lact="reset">Как было</button><button class="lyo lyok" data-lact="toggle">Готово</button></div>'}
 function viewCalc(){
-  var n=LAY.cols,w=WP[n]?WP[n][LAY.w]||WP[n][0]:[1],gt=w.map(function(x){return 'minmax(0,'+x+'fr)'}).join(' ');
-  var zone=function(z,ids,cls){return '<div class="lz'+cls+'" data-z="'+z+'">'+ids.map(blkHTML).join('')+'</div>'};
-  return '<h1 class="vh">Параметры брошюры</h1><div class="lw" style="--gt:'+gt+'">'+zone('top',LAY.top,' lzt')
-   +LAY.c.map(function(ids,i){return zone(i,ids,n>1&&i===n-1?' lzs':'')}).join('')+'</div>'+(lay?layBar():'')}
+  var zone=function(ids,cls){return '<div class="lz'+cls+'">'+ids.map(blkHTML).join('')+'</div>'};
+  return '<h1 class="vh">Параметры брошюры</h1><div class="lw">'+zone(LAY.top,' lzt')+zone(LAY.c[0],'')+zone(LAY.c[1],' lzs')+'</div>'}
 function renderQty(){
   var n=document.getElementById('qnote');if(!n)return;
   var none=!s.qty,bad=!none&&!(s.qty>=1),qi=document.getElementById('qty');if(qi)qi.setAttribute('aria-invalid',bad?'true':'false');
@@ -1664,12 +1591,12 @@ function paintBar(){
     a=ok?'<button class="cta two" data-go="file" title="Ctrl+Enter"><b>Следующий шаг</b><small>'+nextTxt()+'</small></button>':calcErr?'<button class="cta" data-act="retry">Посчитать ещё раз</button>':s.qty>500?'<button class="cta" data-act="manager">Запросить расчёт</button>':(!s.qty?'<button class="cta" disabled>Выберите тираж</button>':'<button class="cta two" disabled><b>Следующий шаг</b><small>'+nextTxt()+'</small></button>');
   }
   /* на расчёте состав и цена — одна плашка: состав неотделим от цены */
-  var clip='<div class="bclip">'+p+'</div>',parts={sum:'',price:calc?'<div class="ord">'+sumBar()+'<span class="osep"></span>'+clip+'</div>':clip,cta:a};
-  morphInner(b,'<div class="bi">'+LAY.bar.map(function(k){return parts[k]}).join('')+'</div>');
+  var clip='<div class="bclip">'+p+'</div>',pc=calc?'<div class="ord">'+sumBar()+'<span class="osep"></span>'+clip+'</div>':clip;
+  morphInner(b,'<div class="bi">'+pc+a+'</div>');
   /* на следующих шагах на компьютере цена и кнопка шага — в правом блоке заказа, панели показывать нечего */
   b.classList.toggle('void',!calc);
   /* уменьшенная строка заголовка и шагов — сверху экрана, когда большая ушла за край */
-  morphInner(document.getElementById('tsteps'),'<div class="bigsteps mini"><span class="bt">Брошюра на скрепке</span>'+stepsHTML()+(calc?'<button class="lnk" data-act="reset">Сбросить</button>':'')+'</div>');
+  morphInner(document.getElementById('tsteps'),'<div class="bigsteps mini'+(calc?'':' flw')+'">'+stepsHTML()+(calc?'<button class="lnk" data-act="reset">Сбросить расчёт</button>':'')+'</div>');
   animPrice(b);stepsCheck();
 }
 
@@ -1881,7 +1808,7 @@ function render(){
   if(stage!==lastStage){drx=dry=0;lastStage=stage}
   renderSteps();
   var app=document.getElementById('app'),html=view==='calc'?viewCalc():view==='file'?viewFile():view==='check'?viewCheck():view==='pay'?viewPay():viewDone();
-  if(view!=='calc')html='<div class="fstw"><div class="bigsteps"><h2 class="bt">Брошюра на скрепке</h2>'+stepsHTML()+'</div></div>'+html;
+  if(view!=='calc')html='<div class="fstw"><div class="bigsteps flw"><h2 class="vh">Брошюра на скрепке</h2>'+stepsHTML()+'</div></div>'+html;
   if(view!==lastView){app.innerHTML=html;if(lastView!==null)appear(app);lastView=view}else morphInner(app,html);
   if(view==='calc'){renderQty();sync3D(fresh)}
   paintBar();
@@ -1889,63 +1816,21 @@ function render(){
   fitAll();size3D();bigInert();
   orderSave();
   savPaint();
-  var lb=document.querySelector('.layb');if(lb){lb.setAttribute('aria-pressed',String(lay));lb.hidden=view!=='calc'}
-  document.documentElement.classList.toggle('lay',lay&&view==='calc');
-  document.documentElement.classList.toggle('team',team);
+
+
+
   ANIM=true;
 }
 function go(v){if(stageBig){stageBig=false;document.documentElement.classList.remove('stagebig','bigout');document.body.style.overflow=''}stopUpload();upErr='';view=v;render();window.scrollTo({top:0});fabCheck();var h=document.querySelector('#app h1');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}
 
 document.addEventListener('click',function(e){if(stageBig&&e.target===document.body)setBig(false)});
-/* ================= раскладка: события ================= */
-function layChange(){laySave();render()}
-document.addEventListener('click',function(e){
-  var t=e.target.closest&&e.target.closest('[data-lact],[data-lcols],[data-lw],[data-lbar],[data-gc],[data-tc],[data-mv]');if(!t)return;var D=t.dataset;
-  if(D.lact==='toggle'){lay=!lay&&innerWidth>=1100;render();return}
-  if(D.lact==='reset'){LAY=clone(LAY0);layChange();toast('Раскладка как в макете');return}
-  if(D.lact==='copy'){var j=JSON.stringify(LAY);try{navigator.clipboard.writeText(j).then(function(){toast('Раскладка скопирована')},function(){toast(j)})}catch(x){toast(j)}return}
-  if(D.lcols){setCols(+D.lcols);return layChange()}
-  if(D.lw){LAY.w=+D.lw;return layChange()}
-  if(D.lbar){var i=+D.lbar,x=LAY.bar[i];LAY.bar[i]=LAY.bar[i-1];LAY.bar[i-1]=x;return layChange()}
-  if(D.gc){LAY.gc[D.gc]=+D.n||0;return layChange()}
-  if(D.tc){LAY.tc[D.tc]=+D.n||0;return layChange()}
-  if(D.mv){var z=[LAY.top].concat(LAY.c).find(function(a){return a.indexOf(D.mv)>=0}),k=z.indexOf(D.mv),to=k+(+D.d);if(to<0||to>=z.length)return;z.splice(k,1);z.splice(to,0,D.mv);return layChange()}
-});
-/* перетаскивание за ручку ⠿: блок — в любую зону, группа — внутри своего блока */
-var drag=null,dropm=null;
-document.addEventListener('pointerdown',function(e){
-  var hd=e.target.closest&&e.target.closest('[data-drag]');if(!hd||!lay||e.button>0)return;e.preventDefault();
-  var g=hd.dataset.drag==='g',el=hd.closest(g?'[data-g]':'[data-b]');
-  drag={g:g,el:el,id:g?el.dataset.g:el.dataset.b,b:g?el.closest('[data-b]').dataset.b:null,box:g?el.parentElement:null,to:null};
-  el.classList.add('dragging');document.documentElement.classList.add('dragon');
-  dropm=document.createElement('div');dropm.className='dropm';dropm.hidden=true;document.body.appendChild(dropm)});
-document.addEventListener('pointermove',function(e){
-  if(!drag)return;
-  if(e.clientY<90)scrollBy(0,-18);else if(e.clientY>innerHeight-40)scrollBy(0,18);
-  var under=document.elementFromPoint(e.clientX,e.clientY),box=drag.g?drag.box:under&&under.closest('.lz');
-  if(!box){dropm.hidden=true;drag.to=null;return}
-  var sel=drag.g?'[data-g]':'[data-b]',kids=[].filter.call(box.children,function(k){return k.matches(sel)&&k!==drag.el}),cs=getComputedStyle(box),
-      multi=cs.display==='grid'&&cs.gridTemplateColumns.split(' ').length>1,i=kids.length;
-  for(var k=0;k<kids.length;k++){var r=kids[k].getBoundingClientRect();if(multi?(e.clientY<r.top||(e.clientY<r.bottom&&e.clientX<r.left+r.width/2)):e.clientY<r.top+r.height/2){i=k;break}}
-  drag.to={box:box,i:i};
-  var ref=kids[i]||kids[i-1],after=!kids[i]&&!!ref,R=(ref||box).getBoundingClientRect();
-  dropm.hidden=false;
-  dropm.style.cssText=multi&&ref?'left:'+((after?R.right:R.left)-6)+'px;top:'+R.top+'px;width:3px;height:'+R.height+'px'
-   :'left:'+R.left+'px;top:'+(ref?(after?R.bottom+4:R.top-8):R.top+4)+'px;width:'+R.width+'px;height:3px'});
-function dropEnd(){
-  if(!drag)return;var d=drag;drag=null;d.el.classList.remove('dragging');document.documentElement.classList.remove('dragon');if(dropm){dropm.remove();dropm=null}
-  if(!d.to)return;
-  if(d.g){var o=grpOrder(d.b).filter(function(x){return x!==d.id});o.splice(d.to.i,0,d.id);LAY.g[d.b]=o}
-  else moveBlock(d.id,d.to.box.dataset.z,d.to.i);
-  layChange()}
-addEventListener('pointerup',dropEnd);addEventListener('pointercancel',dropEnd);
+
 
 /* ================= события ================= */
 document.addEventListener('click',function(e){
-  var t=e.target.closest('[data-go],[data-act],[data-fmt],[data-orient],[data-pg],[data-mat],[data-dens],[data-print],[data-covsel],[data-covp],[data-covd],[data-tlm],[data-ent],[data-dlv],[data-cprint],[data-lam],[data-prod],[data-sample],[data-accept],[data-undo],[data-pay],[data-wlm],[data-wlp],[data-stage],[data-q],[data-qset]');
+  var t=e.target.closest('[data-go],[data-act],[data-fmt],[data-orient],[data-pg],[data-mat],[data-dens],[data-print],[data-covsel],[data-covp],[data-covd],[data-ent],[data-dlv],[data-cprint],[data-lam],[data-prod],[data-sample],[data-accept],[data-undo],[data-pay],[data-wlm],[data-wlp],[data-stage],[data-q],[data-qset]');
   if(!t||t.disabled)return;
   var D=t.dataset;
-  if(D.tlm){setTlm(D.tlm);render();return}
   if(D.stage){stage=D.stage;render();return}
   /* файл уже есть: после правки параметров ведём сразу на проверку */
   if(D.go){layerKind=null;renderLayer();go(D.go==='file'&&file&&view==='calc'?'check':D.go);return}
@@ -2015,7 +1900,7 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&e.target.id==='qty'){e.preventDefault();e.target.select();return}
   if(e.key==='Escape'&&stageBig&&!layerKind){setBig(false);return}
   if(e.key==='Escape'){if(layerKind)layer(null)}
-  if(e.ctrlKey&&e.altKey&&e.code==='KeyL'){e.preventDefault();team=!team;try{localStorage.setItem('tirio5-team',team?'1':'0')}catch(x){}if(!team)lay=false;render();toast(team?'Кнопка «Раскладка» включена в этом браузере':'Кнопка «Раскладка» скрыта');return}
+
   /* Tab не уходит из открытого окна под затемнение */
   if(e.key==='Tab'&&layerKind){var dlg=document.querySelector('#layer [role="dialog"]');if(!dlg)return;
     var f=Array.prototype.filter.call(dlg.querySelectorAll('button:not([disabled]),input:not([disabled]),a[href]'),function(x){return x.offsetParent!==null});if(!f.length)return;
