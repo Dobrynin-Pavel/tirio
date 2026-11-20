@@ -809,14 +809,13 @@ html.bigout .stagecol{animation:bigOut .3s ease-in forwards}
 .hd .tlsw button:hover{background:var(--tint-2)}
 .hd .tlsw button[aria-pressed=true]{background:var(--acc);color:var(--on-acc);box-shadow:none}
 /* компактные плашки параметров. «Ровные»: плашки группы одной ширины (fitTiles: по самой длинной подписи, не уже 136 px у текста и 88 px у цифр),
-   подпись в одну строку — плашка ниже; ряд не помещается — перенос. На телефоне цифры по 4 в ряд (на самых узких по 3), текст по 2.
-   «По тексту»: каждая плашка по своей подписи, но с полями и не уже 96 px */
-html.tl-eq .blk-broch .tl,html.tl-eq .blk-cover .tl,html.tl-eq .blk-inner .tl,html.tl-txt .blk-broch .tl,html.tl-txt .blk-cover .tl,html.tl-txt .blk-inner .tl{container-type:normal}
+   подпись в одну строку — плашка ниже; ряд не помещается — перенос. На телефоне цифры по 4 в ряд (на самых узких по 3), текст по 2 */
+html.tl-eq .blk-broch .tl,html.tl-eq .blk-cover .tl,html.tl-eq .blk-inner .tl{container-type:normal}
 @media (min-width:861px){
   html.tl-eq .blk-broch .tls,html.tl-eq .blk-cover .tls,html.tl-eq .blk-inner .tls{grid-template-columns:repeat(auto-fill,var(--tlw,136px))!important;grid-auto-flow:row!important;grid-auto-rows:auto;justify-content:start}
   html.tl-eq .blk-broch .tl,html.tl-eq .blk-cover .tl,html.tl-eq .blk-inner .tl{min-height:40px;padding-top:9px;padding-bottom:9px;white-space:nowrap}
   html.tl-eq .blk-broch .grp>.seg,html.tl-eq .blk-cover .grp>.seg,html.tl-eq .blk-inner .grp>.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:minmax(136px,1fr);justify-self:start;align-self:flex-start}
-  html.tl-eq .blk-broch .grp>.seg button,html.tl-txt .blk-broch .grp>.seg button{min-height:40px;padding-top:9px;padding-bottom:9px}
+  html.tl-eq .blk-broch .grp>.seg button{min-height:40px;padding-top:9px;padding-bottom:9px}
 }
 @media (max-width:860px){
   html.tl-eq .blk-cover .tls.tnum,html.tl-eq .blk-inner .tls.tnum{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))!important}
@@ -824,20 +823,9 @@ html.tl-eq .blk-broch .tl,html.tl-eq .blk-cover .tl,html.tl-eq .blk-inner .tl,ht
 @media (max-width:300px){
   html.tl-eq .blk-cover .tls.tnum,html.tl-eq .blk-inner .tls.tnum{grid-template-columns:repeat(3,minmax(0,1fr))!important}
 }
-html.tl-txt .blk-broch .tls,html.tl-txt .blk-cover .tls,html.tl-txt .blk-inner .tls{display:flex!important;flex-wrap:wrap}
-html.tl-txt .blk-broch .tl,html.tl-txt .blk-cover .tl,html.tl-txt .blk-inner .tl{flex:0 0 auto;max-width:100%;min-width:96px;min-height:40px;padding:9px 20px}
-html.tl-txt .blk-broch .grp>.seg,html.tl-txt .blk-cover .grp>.seg,html.tl-txt .blk-inner .grp>.seg{display:inline-flex;justify-self:start;align-self:flex-start}
-html.tl-txt .blk-broch .grp>.seg button,html.tl-txt .blk-cover .grp>.seg button,html.tl-txt .blk-inner .grp>.seg button{flex:0 0 auto;min-width:96px;padding-left:20px;padding-right:20px}
-@media (max-width:860px){html.tl-txt .blk-broch .tl,html.tl-txt .blk-cover .tl,html.tl-txt .blk-inner .tl{min-height:44px}}
 /* текст в плашках и переключателях параметров — по центру (по просьбе Павла 20.11); срок, оформление, тиражи с ценой — как раньше */
 .blk-broch .tl,.blk-cover .tl,.blk-inner .tl{grid-template-columns:minmax(0,1fr);justify-items:center;justify-content:center;text-align:center}
 .blk-broch .grp>.seg button,.blk-cover .grp>.seg button,.blk-inner .grp>.seg button{justify-content:center;text-align:center}
-/* «Узко»: страница на компьютере не шире 1200 px — как шаги после расчёта и как раскладка в окне 1200 px. Плашки ровные */
-@media (min-width:1201px){
-  html.tl-nar .lw,html.tl-nar .ft{max-width:1200px}
-  html.tl-nar .hd{padding:0 max(24px,calc((100% - 1152px) / 2))}
-  html.tl-nar .bi,html.tl-nar #tsteps .mini{max-width:1152px}
-}
 /* «С графикой»: у формата и печати — картинка и подпись, плашки ровные; группа из четырёх — на весь ряд (по 2, если тесно) */
 :root{--g-col:#8CC4F4;--g-bw:#C7C9CF}
 html.tl-gfx .blk-broch .tls:has(>.tg),html.tl-gfx .blk-cover .tls:has(>.tg),html.tl-gfx .blk-inner .tls:has(>.tg){display:grid!important;grid-template-columns:repeat(var(--gc,2),minmax(0,1fr))!important}
@@ -862,7 +850,7 @@ html.tl-gfx .tls.tgn .tl.tg{gap:8px;padding:10px}
   <div class="mstep" id="mstep"></div>
   <button class="layb" data-lact="toggle" aria-pressed="false">Раскладка</button>
   <button class="savb" data-act="saved"><svg class="savic" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4.5 2.5h9v13L9 12.3l-4.5 3.2z"/></svg><span class="savt">Сохранённые</span> <b id="savn">0</b></button>
-  <span class="seg tlsw" role="group" aria-label="Вид страницы"><span class="tlsl">Вид</span><button data-tlm="eq" aria-pressed="true">Ровные</button><button data-tlm="txt" aria-pressed="false">По тексту</button><button data-tlm="nar" aria-pressed="false">Узко</button><button data-tlm="gfx" aria-pressed="false">С графикой</button></span>
+  <span class="seg tlsw" role="group" aria-label="Вид страницы"><span class="tlsl">Вид</span><button data-tlm="eq" aria-pressed="true">Ровные</button><button data-tlm="gfx" aria-pressed="false">С графикой</button></span>
   <div class="hmgr">Менеджер: <a href="#" data-act="tg">Telegram</a> · <a href="#" data-act="call" class="num">+7 812 000-00-00</a></div>
   <div class="who"><span class="ava" aria-hidden="true">СС</span><span class="wt"><b>Северная студия</b>агентство</span></div>
 </header>
@@ -1307,13 +1295,12 @@ function fitSegs(){document.querySelectorAll('#app .grp>.seg').forEach(function(
 /* плашки зависят от ширины колонки, а колонка — от высоты плашек: у незакреплённой колонки своя прокрутка сужает её на 15 px.
    Поэтому второй проход — уже в итоговом состоянии колонки */
 /* v5.5: плашки параметров не растягиваются на всю ширину. «Ровные» — все плашки группы шириной по самой длинной подписи
-   (не шире, чем помещается в ряд), на телефоне сеткой как раньше. «По тексту» — каждая плашка по своей подписи, везде.
-   «Узко» — ровные плашки, а вся страница на компьютере не шире 1200 px (как шаги после расчёта): справа меньше пустоты */
-var TLM=['eq','txt','nar','gfx'],tlMode='eq';try{var tl0=localStorage.getItem('tirio55-tlm');if(TLM.indexOf(tl0)>=0)tlMode=tl0}catch(e){}
-function setTlm(m){tlMode=TLM.indexOf(m)>=0?m:'eq';var r=document.documentElement;r.classList.toggle('tl-eq',tlMode!=='txt');r.classList.toggle('tl-txt',tlMode==='txt');r.classList.toggle('tl-nar',tlMode==='nar');r.classList.toggle('tl-gfx',tlMode==='gfx');try{localStorage.setItem('tirio55-tlm',tlMode)}catch(e){}
+   (не шире, чем помещается в ряд), на телефоне сеткой как раньше. «С графикой» — те же ровные плашки, у формата и печати картинка */
+var TLM=['eq','gfx'],tlMode='eq';try{var tl0=localStorage.getItem('tirio55-tlm');if(TLM.indexOf(tl0)>=0)tlMode=tl0}catch(e){}
+function setTlm(m){tlMode=TLM.indexOf(m)>=0?m:'eq';var r=document.documentElement;r.classList.add('tl-eq');r.classList.toggle('tl-gfx',tlMode==='gfx');try{localStorage.setItem('tirio55-tlm',tlMode)}catch(e){}
   document.querySelectorAll('[data-tlm]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.tlm===tlMode))})}
 setTlm(tlMode);
-function fitTiles(){var eq=tlMode!=='txt'&&!isPhone();
+function fitTiles(){var eq=!isPhone();
   document.querySelectorAll('#app .tls').forEach(function(g){if(!g.querySelector(':scope>.tg'))return;var gp=parseFloat(getComputedStyle(g).columnGap)||8;var gc=g.clientWidth>=4*150+3*gp?4:2;g.style.setProperty('--gc',gc);g.classList.toggle('tgn',(g.clientWidth-(gc-1)*gp)/gc<180)});
   document.querySelectorAll('#app .blk-broch .tls,#app .blk-cover .tls,#app .blk-inner .tls').forEach(function(g){g.style.removeProperty('--tlw');if(!eq)return;
     var ts=[].filter.call(g.children,function(t){return t.offsetWidth>0});if(!ts.length)return;
