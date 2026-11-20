@@ -685,7 +685,7 @@ label.f{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:14p
   .bi{gap:12px}
   .bclip{flex:none}
   .bigx{width:44px;height:44px}
-  .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+  .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
   .tabs .tab{padding:8px 2px;font-size:12px}
   .fmgr a{display:inline-block;padding:12px 0}
   .bi .cta{flex:1;min-width:0}
@@ -801,10 +801,13 @@ html.bigout .stagecol{animation:bigOut .3s ease-in forwards}
 .bp.from b{font-size:15px;font-weight:500;color:var(--mute)}
 .sprice.from>b{font-size:17px;font-weight:500;color:var(--mute)}
 /* переключатель вида плашек в шапке; на телефоне его нет: там «Ровные» — та же сетка, что раньше */
-.hd .tlsw{flex:none;align-items:center;gap:4px}
-@media (max-width:1023px){.hd .tlsw{display:none}}
-.tlsl{font-size:13px;color:var(--mute);margin-right:4px}
-.tlsw button{min-height:32px;padding:4px 12px;font-size:13px}
+/* переключатель вида — заметный: синяя подложка, выбранный вариант залит синим */
+.hd .tlsw{flex:none;align-items:center;gap:2px;padding:3px;border-radius:12px;background:var(--tint);box-shadow:inset 0 0 0 1.5px var(--tint-2)}
+@media (max-width:1179px){.hd .tlsw{display:none}}
+.tlsl{font-size:13px;font-weight:600;color:var(--sel-dark);margin:0 6px 0 8px}
+.hd .tlsw button{min-height:32px;padding:4px 11px;font-size:13px;background:transparent;box-shadow:none;color:var(--sel-dark);border-radius:9px}
+.hd .tlsw button:hover{background:var(--tint-2)}
+.hd .tlsw button[aria-pressed=true]{background:var(--acc);color:var(--on-acc);box-shadow:none}
 /* компактные плашки параметров. «Ровные»: плашки группы одной ширины (fitTiles: по самой длинной подписи, не уже 136 px у текста и 88 px у цифр),
    подпись в одну строку — плашка ниже; ряд не помещается — перенос. На телефоне цифры по 4 в ряд (на самых узких по 3), текст по 2.
    «По тексту»: каждая плашка по своей подписи, но с полями и не уже 96 px */
@@ -829,6 +832,28 @@ html.tl-txt .blk-broch .grp>.seg button,html.tl-txt .blk-cover .grp>.seg button,
 /* текст в плашках и переключателях параметров — по центру (по просьбе Павла 20.11); срок, оформление, тиражи с ценой — как раньше */
 .blk-broch .tl,.blk-cover .tl,.blk-inner .tl{grid-template-columns:minmax(0,1fr);justify-items:center;justify-content:center;text-align:center}
 .blk-broch .grp>.seg button,.blk-cover .grp>.seg button,.blk-inner .grp>.seg button{justify-content:center;text-align:center}
+/* «Узко»: страница на компьютере не шире 1200 px — как шаги после расчёта и как раскладка в окне 1200 px. Плашки ровные */
+@media (min-width:1201px){
+  html.tl-nar .lw,html.tl-nar .ft{max-width:1200px}
+  html.tl-nar .hd{padding:0 max(24px,calc((100% - 1152px) / 2))}
+  html.tl-nar .bi,html.tl-nar #tsteps .mini{max-width:1152px}
+}
+/* «С графикой»: у формата и печати — картинка и подпись, плашки ровные; группа из четырёх — на весь ряд (по 2, если тесно) */
+:root{--g-col:#8CC4F4;--g-bw:#C7C9CF}
+html.tl-gfx .blk-broch .tls:has(>.tg),html.tl-gfx .blk-cover .tls:has(>.tg),html.tl-gfx .blk-inner .tls:has(>.tg){display:grid!important;grid-template-columns:repeat(var(--gc,2),minmax(0,1fr))!important}
+html.tl-gfx .tls .tl.tg{display:flex;align-items:center;justify-content:flex-start;gap:12px;min-height:64px;padding:10px 14px;text-align:left;white-space:normal}
+.tg .tgi{flex:none;overflow:visible}
+.tg .tgt{display:flex;flex-direction:column;gap:2px;min-width:0;line-height:1.25}
+.tg .tgt small{font-size:12px;color:var(--mute)}
+.tgi .tgs{fill:var(--sheet);stroke:var(--tbn);stroke-width:1.5}
+.tgi .tgc{fill:var(--g-col)}
+.tgi .tgk{fill:var(--g-bw)}
+.tgi .tgf{stroke:var(--sheet);stroke-width:1.5}
+.tgi .tgd{fill:none;stroke:var(--fb);stroke-width:1.5;stroke-dasharray:3 2.5}
+.tg .tgt b,.tg .tgt small{white-space:normal;overflow-wrap:break-word;text-align:left}
+/* тесный ряд (плашка уже 180 px, телефоны): картинка и отступы меньше, подписи помещаются */
+html.tl-gfx .tls.tgn .tl.tg{gap:8px;padding:10px}
+.tgn .tg .tgi{width:auto;height:28px}
 </style>
 </head>
 <body>
@@ -837,7 +862,7 @@ html.tl-txt .blk-broch .grp>.seg button,html.tl-txt .blk-cover .grp>.seg button,
   <div class="mstep" id="mstep"></div>
   <button class="layb" data-lact="toggle" aria-pressed="false">Раскладка</button>
   <button class="savb" data-act="saved"><svg class="savic" aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4.5 2.5h9v13L9 12.3l-4.5 3.2z"/></svg><span class="savt">Сохранённые</span> <b id="savn">0</b></button>
-  <span class="seg tlsw" role="group" aria-label="Вид плашек"><span class="tlsl">Плашки</span><button data-tlm="eq" aria-pressed="true">Ровные</button><button data-tlm="txt" aria-pressed="false">По тексту</button></span>
+  <span class="seg tlsw" role="group" aria-label="Вид страницы"><span class="tlsl">Вид</span><button data-tlm="eq" aria-pressed="true">Ровные</button><button data-tlm="txt" aria-pressed="false">По тексту</button><button data-tlm="nar" aria-pressed="false">Узко</button><button data-tlm="gfx" aria-pressed="false">С графикой</button></span>
   <div class="hmgr">Менеджер: <a href="#" data-act="tg">Telegram</a> · <a href="#" data-act="call" class="num">+7 812 000-00-00</a></div>
   <div class="who"><span class="ava" aria-hidden="true">СС</span><span class="wt"><b>Северная студия</b>агентство</span></div>
 </header>
@@ -858,7 +883,7 @@ var MATS=[
  {v:'gl',t:'Мелованная глянцевая',tn:'Мел.глянцевая',d:[90,115,130,150,170],k:1,tip:'Блестит, фото выглядят ярко.'},
  {v:'cd',t:'Мелованный картон',tn:'Мел.картон',d:[200,250,300],k:1.28,tip:'Жёсткий, держит форму.'},
  {v:'of',t:'Офсетная',d:[80,90,120],k:.86,tip:'Без покрытия, по ней можно писать ручкой.'},
- {v:'ds',t:'Дизайнерская',d:[250,300],k:2.3,tip:'С фактурой или тонировкой. Без плёнки.'}];
+ {v:'ds',t:'Дизайнерская',d:[250,300],k:2.3,tip:'С фактурой или тонировкой. Без ламинации.'}];
 var COVP=[{v:'mt',t:'Мелованная матовая',tn:'Мел.матовая',sn:'матовая',d:[150,170],k:1.06},{v:'gl',t:'Мелованная глянцевая',tn:'Мел.глянцевая',sn:'глянцевая',d:[150,170],k:1},{v:'cd',t:'Мелованный картон',tn:'Мел.картон',sn:'картон',d:[200,250,300],k:1.28},{v:'ds',t:'Дизайнерская',sn:'дизайнерская',d:[250,300],k:2.3}];
 /* все сочетания «вид + плотность»: код как раньше — cd250, gl170 */
 var COVMAT=[];COVP.forEach(function(p){p.d.forEach(function(d){COVMAT.push({v:p.v+d,p:p.v,t:p.t+' '+d,sn:p.sn+' '+d,d:d,k:p.k})})});
@@ -942,12 +967,12 @@ function tomorrow(){var d=new Date();d.setDate(d.getDate()+1);return d.getDate()
 function plusDays(n){var d=new Date();d.setDate(d.getDate()+n);return d.getDate()+' '+MON[d.getMonth()]}
 function fmtName(t){var f=FMT.find(function(x){return x.v===t.fmt}),d=dims(t);return (t.fmt==='cu'?'Свой размер':f.t)+' · '+(d[0]||'—')+'×'+(d[1]||'—')+' мм'}
 function coverName(t){return t.cover==='sep'?COVMAT.find(function(x){return x.v===t.covmat}).sn:'как у блока'}
-function lamName(t){var l=lamOf(t);return l==='no'?'без плёнки':LAM.find(function(x){return x.v===l}).t.toLowerCase()+' плёнка'}
+function lamName(t){var l=lamOf(t);return l==='no'?'без ламинации':LAM.find(function(x){return x.v===l}).t.toLowerCase()+' ламинация'}
 function cap(x){return x.charAt(0).toUpperCase()+x.slice(1)}
 function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function readyTxt(){var p=PROD.find(function(x){return x.v===prodOf(s)});return (view==='pay'||view==='done')&&pay==='inv'?dlabel(addBiz(p.days))+' при оплате сегодня':dlabel(addBiz(p.days))}
 function pgNote(p){return '+ 4 полосы обложки, всего '+pagesTxt(p)+', скоба по сгибу'}
-function lamList(){return [{v:'no',t:'Без плёнки',s:'как напечатано',tip:'Без защиты: при частом листании углы потрутся.'}].concat(LAM.map(function(l){return {v:l.v,t:l.t,s:l.s,tip:{mt:'Без бликов, спокойный вид.',gl:'Цвет ярче, обложка блестит.',sf:'Бархатистая на ощупь.'}[l.v]}}))}
+function lamList(){return [{v:'no',t:'Без ламинации',s:'как напечатано',tip:'Без защиты: при частом листании углы потрутся.'}].concat(LAM.map(function(l){return {v:l.v,t:l.t,s:l.s,tip:{mt:'Без бликов, спокойный вид.',gl:'Цвет ярче, обложка блестит.',sf:'Бархатистая на ощупь.'}[l.v]}}))}
 
 /* ================= иконки ================= */
 var I={
@@ -968,7 +993,7 @@ var PICS={hero:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAkGBggGB
    Рисуем только пока что-то движется: на стоячей сцене видеокарта отдыхает. */
 function specLine(){return fmtName(s)+(s.orient==='land'?', альбомная':'')+' · '+pagesTxt(s.pages)+' · '+matOf(s).t.toLowerCase()+' '+s.dens+' г/⁠м² · обложка '+coverName(s)+', '+lamName(s)}
 /* ширина сцены на десктопе: узкая для работы и половина блока. Выбор запоминаем */
-var TABS=[['cover','Обложка'],['spread','Разворот'],['paper','Бумага'],['lam','Плёнка']];
+var TABS=[['cover','Обложка'],['spread','Разворот'],['paper','Бумага'],['lam','Ламинация']];
 function stageHTML(){if(!TABS.some(function(t){return t[0]===stage}))stage='cover';
   return '<div class="view" id="view"><div class="scene pics" id="scene" role="img" aria-label="'+esc(specLine())+'"></div>'+'<button class="bigx" data-act="big" aria-pressed="'+stageBig+'" aria-label="'+(stageBig?'Свернуть изделие':'Изделие на весь экран')+'">'+(stageBig?'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M7 2.5V7H2.5M11 2.5V7h4.5M7 15.5V11H2.5M11 15.5V11h4.5"/></svg>':'<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2.5 7V2.5H7M15.5 7V2.5H11M2.5 11v4.5H7M15.5 11v4.5H11"/></svg>')+'</button></div>'
    +'<div class="tabs" role="group" aria-label="Ракурс">'+TABS.map(function(t){return '<button class="tab" data-stage="'+t[0]+'" aria-pressed="'+(stage===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>';
@@ -1282,13 +1307,14 @@ function fitSegs(){document.querySelectorAll('#app .grp>.seg').forEach(function(
 /* плашки зависят от ширины колонки, а колонка — от высоты плашек: у незакреплённой колонки своя прокрутка сужает её на 15 px.
    Поэтому второй проход — уже в итоговом состоянии колонки */
 /* v5.5: плашки параметров не растягиваются на всю ширину. «Ровные» — все плашки группы шириной по самой длинной подписи
-   (не шире, чем помещается в ряд), на телефоне сеткой как раньше. «По тексту» — каждая плашка по своей подписи, везде */
-var tlMode='eq';try{tlMode=localStorage.getItem('tirio55-tlm')==='txt'?'txt':'eq'}catch(e){}
-function setTlm(m){tlMode=m==='txt'?'txt':'eq';var r=document.documentElement;r.classList.toggle('tl-eq',tlMode==='eq');r.classList.toggle('tl-txt',tlMode==='txt');try{localStorage.setItem('tirio55-tlm',tlMode)}catch(e){}
+   (не шире, чем помещается в ряд), на телефоне сеткой как раньше. «По тексту» — каждая плашка по своей подписи, везде.
+   «Узко» — ровные плашки, а вся страница на компьютере не шире 1200 px (как шаги после расчёта): справа меньше пустоты */
+var TLM=['eq','txt','nar','gfx'],tlMode='eq';try{var tl0=localStorage.getItem('tirio55-tlm');if(TLM.indexOf(tl0)>=0)tlMode=tl0}catch(e){}
+function setTlm(m){tlMode=TLM.indexOf(m)>=0?m:'eq';var r=document.documentElement;r.classList.toggle('tl-eq',tlMode!=='txt');r.classList.toggle('tl-txt',tlMode==='txt');r.classList.toggle('tl-nar',tlMode==='nar');r.classList.toggle('tl-gfx',tlMode==='gfx');try{localStorage.setItem('tirio55-tlm',tlMode)}catch(e){}
   document.querySelectorAll('[data-tlm]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.tlm===tlMode))})}
 setTlm(tlMode);
-function tlSwitch(){return '<span class="seg tlsw" role="group" aria-label="Вид плашек"><span class="tlsl">Плашки</span><button data-tlm="eq" aria-pressed="'+(tlMode==='eq')+'">Ровные</button><button data-tlm="txt" aria-pressed="'+(tlMode==='txt')+'">По тексту</button></span>'}
-function fitTiles(){var eq=tlMode==='eq'&&!isPhone();
+function fitTiles(){var eq=tlMode!=='txt'&&!isPhone();
+  document.querySelectorAll('#app .tls').forEach(function(g){if(!g.querySelector(':scope>.tg'))return;var gp=parseFloat(getComputedStyle(g).columnGap)||8;var gc=g.clientWidth>=4*150+3*gp?4:2;g.style.setProperty('--gc',gc);g.classList.toggle('tgn',(g.clientWidth-(gc-1)*gp)/gc<180)});
   document.querySelectorAll('#app .blk-broch .tls,#app .blk-cover .tls,#app .blk-inner .tls').forEach(function(g){g.style.removeProperty('--tlw');if(!eq)return;
     var ts=[].filter.call(g.children,function(t){return t.offsetWidth>0});if(!ts.length)return;
     /* все плашки группы одной ширины: по самой длинной подписи в одну строку, но не уже 136 px у текста и 88 px у цифр.
@@ -1360,12 +1386,21 @@ function miniCover(){
 function ro(attr,val,sel,t,sub,o){o=o||{};var rd=o.rd||'';
   return '<button class="ro" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+(o.pre||'')+'<span class="rt"><b>'+t+'</b>'+(sub?'<small>'+sub+'</small>':'')+'</span><span class="rd num">'+rd+'</span></button>'}
 /* плитка варианта: название и подпись (размер формата), без разницы в цене; пустой подписи нет */
-function tl(attr,val,sel,t,sm,o){o=o||{};return '<button class="tl'+(o.pre?' tlc':'')+'" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+(o.pre||'')+'<b>'+t+'</b>'+(sm?'<small class="num">'+sm+'</small>':'')+'</button>'}
+function tl(attr,val,sel,t,sm,o){o=o||{};if(o.g)return '<button class="tl tg" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+o.g+'<span class="tgt"><b>'+t+'</b>'+(sm?'<small>'+sm+'</small>':'')+'</span></button>';
+  return '<button class="tl'+(o.pre?' tlc':'')+'" data-'+attr+'="'+val+'" aria-pressed="'+sel+'"'+(o.dis?' disabled':'')+'>'+(o.pre||'')+'<b>'+t+'</b>'+(sm?'<small class="num">'+sm+'</small>':'')+'</button>'}
+/* вид «С графикой»: формат — лист А4 и доля, которую занимает брошюра; печать — лицо и оборот листа (цвет, ч/б или пусто) */
+function gfx(){return tlMode==='gfx'}
+function icoFmt(v,land){var W=land?40:30,H=land?30:40,o='<svg class="tgi" width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true">';
+  if(v==='cu')return o+'<rect class="tgd" x="1" y="1" width="'+(W-2)+'" height="'+(H-2)+'" rx="2.5"/></svg>';
+  var k={a4:1,a5:.707,a6:.5}[v],w=(W-2)*k,h=(H-2)*k;
+  return o+'<rect class="tgs" x="1" y="1" width="'+(W-2)+'" height="'+(H-2)+'" rx="2.5"/><rect class="tgc" x="'+(W-1-w).toFixed(1)+'" y="'+(H-1-h).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2"/></svg>'}
+function icoPrint(v){var c=v.charAt(0)==='4'?'tgc':'tgk',b=v.charAt(2)==='0'?'tgs':c;
+  return '<svg class="tgi" width="34" height="40" viewBox="0 0 34 40" aria-hidden="true"><rect class="'+b+'" x="12" y="11" width="21" height="28" rx="2.5"/><rect class="'+c+' tgf" x="1" y="1" width="21" height="28" rx="2.5"/></svg>'}
 /* группы внутри блоков. Каждая рисуется сама, порядок и колонки задаёт раскладка */
 var G={
   fmt:function(){
     var a='<h4 class="sh" id="h-fmt">Формат</h4><div class="tls t4" role="group" aria-label="Формат">';
-    FMT.forEach(function(f){var d=s.orient==='land'?[f.h,f.w]:[f.w,f.h],sel=s.fmt===f.v;a+=tl('fmt',f.v,sel,f.t,'')});
+    FMT.forEach(function(f){var d=s.orient==='land'?[f.h,f.w]:[f.w,f.h],sel=s.fmt===f.v;a+=gfx()?tl('fmt',f.v,sel,f.t,f.v==='cu'?'':d[0]+' × '+d[1]+' мм',{g:icoFmt(f.v,s.orient==='land')}):tl('fmt',f.v,sel,f.t,'')});
     a+='</div>';
     if(s.fmt==='cu'){var ce=cuErr();a+='<div class="cust" id="cust"><input id="cw" class="in num" type="number" placeholder="ширина" value="'+esc(s.cw)+'" aria-label="Ширина, мм" aria-invalid="'+ce.w+'"'+(ce.t?' aria-describedby="cuerr"':'')+'><span>×</span><input id="ch" class="in num" type="number" placeholder="высота" value="'+esc(s.ch)+'" aria-label="Высота, мм" aria-invalid="'+ce.h+'"'+(ce.t?' aria-describedby="cuerr"':'')+'><span>мм, от 70×70 до 297×420. Ориентация — по сторонам</span></div>'+(ce.t?'<p class="ferr" id="cuerr">'+ce.t+'</p>':'')}
     if(fmtBad())a+='<div class="why" id="fmtwhy"><p>Макет свёрстан под '+file.d+' мм — после смены формата его нужно заменить.</p><button class="lnk" data-act="fitfmt">Вернуть '+file.d+' мм</button></div>';
@@ -1389,13 +1424,13 @@ var G={
   cprint:function(){
     if(s.cover!=='sep')return '';
     var b='<h4 class="sh">Печать</h4><div class="tls t4 tnum" role="group" aria-label="Печать обложки">';
-    PRINT.forEach(function(p){b+=tl('cprint',p.v,s.cprint===p.v,p.v,'')});
+    PRINT.forEach(function(p){b+=tl('cprint',p.v,s.cprint===p.v,p.v,gfx()?p.s:'',gfx()?{g:icoPrint(p.v)}:0)});
     return b+'</div>'},
   lam:function(){
-    var la=lamAllowed(s),cl=lamOf(s),o='<h4 class="sh" id="h-lam">Плёнка</h4><div class="tls t4 tw" role="group" aria-label="Плёнка на обложку">';
+    var la=lamAllowed(s),cl=lamOf(s),o='<h4 class="sh" id="h-lam">Ламинация</h4><div class="tls t4 tw" role="group" aria-label="Ламинация обложки">';
     lamList().forEach(function(x){var dis=x.v!=='no'&&!la,sel=cl===x.v;o+=tl('lam',x.v,sel,x.v==='no'?'Нет':x.t,'',{dis:dis})});
     o+='</div>';
-    if(!la){o+='<div class="why" id="lamwhy"><p>'+(covP(s)==='ds'?'Плёнка не ложится на дизайнерскую бумагу.':'Плёнка ложится на обложку от 170 г/⁠м², сейчас '+covDens(s)+' г/⁠м².')+'</p><button class="lnk" data-act="covon">Обложка из картона 250</button></div>'}
+    if(!la){o+='<div class="why" id="lamwhy"><p>'+(covP(s)==='ds'?'Ламинация не ложится на дизайнерскую бумагу.':'Ламинация ложится на обложку от 170 г/⁠м², сейчас '+covDens(s)+' г/⁠м².')+'</p><button class="lnk" data-act="covon">Обложка из картона 250</button></div>'}
     return o},
   mat:function(){
     var b='<h4 class="sh" id="h-mat">Бумага</h4><div class="tls t5" role="group" aria-label="Бумага блока">';
@@ -1407,7 +1442,7 @@ var G={
     return b+'</div>'},
   print:function(){
     var b='<h4 class="sh" id="h-print">Печать</h4><div class="tls t4 tnum" role="group" aria-label="Печать блока">';
-    PRINT.forEach(function(p){b+=tl('print',p.v,s.print===p.v,p.v,'')});
+    PRINT.forEach(function(p){b+=tl('print',p.v,s.print===p.v,p.v,gfx()?p.s:'',gfx()?{g:icoPrint(p.v)}:0)});
     return b+'</div>'},
   qin:function(){
     return '<div class="qty"><div class="qbox"><button class="qb" data-q="-50" aria-label="Меньше на 50"'+(s.qty<=50?' disabled':'')+'>−</button><input id="qty" class="qin num" type="number" inputmode="numeric" min="1" max="2000" value="'+(s.qty?s.qty:'')+'" placeholder="—" aria-label="Тираж, экземпляров" aria-describedby="qnote"><button class="qb" data-q="50" aria-label="Больше на 50"'+(s.qty>=500?' disabled':'')+'>+</button></div><span class="qu">экз.</span></div><p class="note" id="qnote"></p>'},
@@ -1441,7 +1476,7 @@ function withS(t,fn){var k=s;s=t;try{return fn()}finally{s=k}}
 function cmpAdd(st,src){if(cmpV.length>=3)return false;if(cmpV.some(function(v){return sameSt(v.st,st)}))return true;cmpV.push({id:++cmpN,st:clone(st),src:src});return true}
 function cmpStart(){cmpV=[];if(s.qty>=1&&s.qty<=500)cmpAdd(s,'текущий');[100,200,300].forEach(function(n){if(cmpV.length<2)cmpAdd(Object.assign(clone(s),{qty:n}),'тираж')});cmpV.sort(function(x,y){return x.st.qty-y.st.qty})}
 function cmpRows(t){return withS(t,function(){var pd=PROD.find(function(p){return p.v===prodOf(s)});
-  return [['Тираж',s.qty+' экз.'],['Формат',fmtName(s)+(s.fmt==='cu'?'':', '+(s.orient==='land'?'альбомная':'книжная'))],['Полосы',pagesTxt(s.pages)],['Обложка',coverName(s)+(s.cover==='sep'?', печать '+s.cprint:'')],['Плёнка',lamOf(s)==='no'?'нет':LAM.find(function(x){return x.v===lamOf(s)}).t],['Бумага блока',matOf(s).t.toLowerCase()+', '+s.dens+' г/⁠м²'],['Печать блока',s.print],
+  return [['Тираж',s.qty+' экз.'],['Формат',fmtName(s)+(s.fmt==='cu'?'':', '+(s.orient==='land'?'альбомная':'книжная'))],['Полосы',pagesTxt(s.pages)],['Обложка',coverName(s)+(s.cover==='sep'?', печать '+s.cprint:'')],['Ламинация',lamOf(s)==='no'?'нет':LAM.find(function(x){return x.v===lamOf(s)}).t],['Бумага блока',matOf(s).t.toLowerCase()+', '+s.dens+' г/⁠м²'],['Печать блока',s.print],
     ['Срок',pd.t],['Счёт',vatTxt(s)],['Получение',dlvTxt(s)]]})}
 function cmpModalHTML(){
   var P=cmpV.map(function(v){return priceOf(v.st)}),R=cmpV.map(function(v){return cmpRows(v.st)}),h='';
@@ -1510,7 +1545,7 @@ function sostavHTML(){
   function g(t,rows,to){return '<div class="sosg"><h4 class="sh">'+cap(t)+'</h4><dl>'+rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>'}).join('')+'</dl><button class="sosj" data-sjump="'+to+'" aria-label="Изменить: '+t+'">'+PEN+'</button></div>'}
   var h='<div class="scrim" data-act="close"></div><div class="modal msheet msos" role="dialog" aria-modal="true" aria-labelledby="sosh"><div class="dh"><div><h2 id="sosh">Состав расчёта</h2></div><button class="x" data-act="close" aria-label="Закрыть">×</button></div><div class="sos">'
    +g('формат',[['Размер',fmtName(s)+(s.fmt==='cu'?'':' · '+(s.orient==='land'?'альбомная':'книжная'))]],'h-fmt')
-   +g('обложка',[['Бумага',s.cover==='sep'?COVMAT.find(function(x){return x.v===s.covmat}).t+' г/⁠м²':'из бумаги блока']].concat(s.cover==='sep'?[['Печать',s.cprint+', '+PRINT.find(function(x){return x.v===s.cprint}).s.toLowerCase()]]:[]).concat([['Плёнка',lamOf(s)==='no'?'нет':LAM.find(function(x){return x.v===lamOf(s)}).t]]),'h-cmat')
+   +g('обложка',[['Бумага',s.cover==='sep'?COVMAT.find(function(x){return x.v===s.covmat}).t+' г/⁠м²':'из бумаги блока']].concat(s.cover==='sep'?[['Печать',s.cprint+', '+PRINT.find(function(x){return x.v===s.cprint}).s.toLowerCase()]]:[]).concat([['Ламинация',lamOf(s)==='no'?'нет':LAM.find(function(x){return x.v===lamOf(s)}).t]]),'h-cmat')
    +g('блок',[['Объём',pagesTxt(s.pages-4)+' блока + 4 обложки, всего '+pagesTxt(s.pages)],['Бумага',matOf(s).t.toLowerCase()+', '+s.dens+' г/⁠м²'],['Печать',s.print]],'h-pg')
    +g('тираж и срок',[['Тираж',(s.qty>=1?s.qty:0)+' экз.'],['Срок',pd.t+(ok?', '+dlabel(addBiz(pd.days)):'')],['Счёт',s.ent==='ooo'?'ООО · с НДС 22%':'ИП · без НДС'],['Получение',cap(dlvTxt(s))]],'h-qty');
   if(ok)h+='<div class="sosp"><span class="fine">Стоимость тиража</span><b class="num">'+moneyBig(c.total)+'</b><div class="sosu"><span class="num">'+kop(c.unit)+' за экз.</span><span class="num">'+s.qty+' экз.</span></div></div>'
@@ -1533,7 +1568,7 @@ var BLK={
   terms:{t:'Срок и оформление',g:['prod','ent']},
   act:{t:'Сравнение и КП',g:['cmpb','kp']}
 };
-var GT={fmt:'Формат',pg:'Полосы',cmat:'Бумага обложки',cprint:'Печать обложки',cdens:'Плотность обложки',lam:'Плёнка',mat:'Бумага блока',dens:'Плотность блока',print:'Печать блока',qin:'Свой тираж',qset:'Быстрый выбор',cmpb:'Сравнить и сохранить',prod:'Срок',ent:'Оформление',kp:'КП'};
+var GT={fmt:'Формат',pg:'Полосы',cmat:'Бумага обложки',cprint:'Печать обложки',cdens:'Плотность обложки',lam:'Ламинация',mat:'Бумага блока',dens:'Плотность блока',print:'Печать блока',qin:'Свой тираж',qset:'Быстрый выбор',cmpb:'Сравнить и сохранить',prod:'Срок',ent:'Оформление',kp:'КП'};
 var BARP={sum:'Сводка',price:'Цена',cta:'Кнопка'};
 var LAY0={cols:2,w:0,top:['steps'],c:[['broch','cover','inner','qty'],['stage','terms','act']],g:{},gc:{},tc:{},bar:['sum','price','cta']};
 /* доли ширины колонок */
@@ -1739,13 +1774,13 @@ function viewPay(){
   h+='</section><section class="fset"><label class="chk"><input type="checkbox" id="c-offer"'+(payOk.offer?' checked':'')+'><span><b>Согласен с условиями оферты</b></span></label>'
    +'<label class="chk"><input type="checkbox" id="c-pd"'+(payOk.pd?' checked':'')+'><span><b>Согласен на обработку персональных данных по 152-ФЗ</b></span></label></section>'
    +'<button class="cta" data-act="paydo"'+(payOk.offer&&payOk.pd?'':' disabled')+'>'+(pay==='inv'?'Выставить счёт на ':'Оплатить ')+moneyK(c.total)+'</button>'+(payOk.offer&&payOk.pd?'':'<p class="fine">Отметьте согласие с офертой и обработкой данных.</p>')+'</div></div>'
-   +'<aside class="fa">'+summary(true)+'<section class="fset"><h2>Что дальше</h2><ol class="track"><li class="on">Принят<small>сразу после оплаты</small></li><li>Препресс<small>готовим файл к печати</small></li><li>Печать<small>печатаем тираж</small></li><li>Брошюровка<small>'+(lamOf(s)!=='no'?'плёнка, ':'')+'фальцовка, скоба</small></li><li>Готов<small>'+readyTxt()+'</small></li><li>Выдан<small>'+(s.dlv==='dlv'?'доставка, стоимость подтвердит менеджер':'самовывоз из типографии')+'</small></li></ol></section></aside></div>';
+   +'<aside class="fa">'+summary(true)+'<section class="fset"><h2>Что дальше</h2><ol class="track"><li class="on">Принят<small>сразу после оплаты</small></li><li>Препресс<small>готовим файл к печати</small></li><li>Печать<small>печатаем тираж</small></li><li>Брошюровка<small>'+(lamOf(s)!=='no'?'ламинация, ':'')+'фальцовка, скоба</small></li><li>Готов<small>'+readyTxt()+'</small></li><li>Выдан<small>'+(s.dlv==='dlv'?'доставка, стоимость подтвердит менеджер':'самовывоз из типографии')+'</small></li></ol></section></aside></div>';
   return h;
 }
 function viewDone(){
   var c=priceOf(s);
   return '<div class="flow"><div class="fm"><div class="done-h"><span class="okc">'+I.ok+'</span><div><h1>Заказ TR-24118 оформлен</h1><p class="lead">'+(pay==='inv'?'Счёт на '+moneyK(c.total)+' отправлен на '+esc(payer.mail.trim())+'. Запустим в печать, как только поступит оплата.':'Оплата прошла. Заказ уже в очереди препресса.')+'</p></div></div>'
-   +'<section class="fset"><h2>Статус</h2><ol class="track"><li class="on">Принят<small>'+(pay==='inv'?'ждём оплату счёта':'сегодня')+'</small></li><li>Препресс<small>готовим файл к печати</small></li><li>Печать<small>печатаем тираж</small></li><li>Брошюровка<small>'+(lamOf(s)!=='no'?'плёнка, ':'')+'фальцовка, скоба</small></li><li>Готов<small>'+readyTxt()+'</small></li><li>Выдан<small>'+(s.dlv==='dlv'?'доставка, стоимость подтвердит менеджер':'самовывоз из типографии')+'</small></li></ol></section>'
+   +'<section class="fset"><h2>Статус</h2><ol class="track"><li class="on">Принят<small>'+(pay==='inv'?'ждём оплату счёта':'сегодня')+'</small></li><li>Препресс<small>готовим файл к печати</small></li><li>Печать<small>печатаем тираж</small></li><li>Брошюровка<small>'+(lamOf(s)!=='no'?'ламинация, ':'')+'фальцовка, скоба</small></li><li>Готов<small>'+readyTxt()+'</small></li><li>Выдан<small>'+(s.dlv==='dlv'?'доставка, стоимость подтвердит менеджер':'самовывоз из типографии')+'</small></li></ol></section>'
    +'<div class="row after"><button class="btn2" data-act="new">Новый расчёт</button><button class="btn2" data-act="wl">КП для клиента по этому заказу</button></div></div>'
    +'<aside class="fa">'+summary(false)+'</aside></div>';
 }
